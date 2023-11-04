@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
+  resources :wallets
 
   namespace :api do
     namespace :v1 do 
       resources :assets
-      resources :users
+      resources :users do
+        collection do
+          post :login
+        end
+      end
     end
 
 
