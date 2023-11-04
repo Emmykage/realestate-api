@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :portfolios
   resources :wallets
 
   namespace :api do
@@ -7,6 +8,7 @@ Rails.application.routes.draw do
       resources :users do
         collection do
           post :login
+          get :account
         end
       end
     end
