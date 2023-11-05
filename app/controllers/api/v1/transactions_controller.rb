@@ -1,4 +1,4 @@
-class TransactionsController < ApplicationController
+class Api::V1::TransactionsController < ApplicationController
   before_action :set_transaction, only: %i[ show update destroy ]
 
   # GET /transactions
@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(transaction_params)
 
     if @transaction.save
-      render json: @transaction, status: :created, location: @transaction
+      render json: @transaction, status: :created
     else
       render json: @transaction.errors, status: :unprocessable_entity
     end

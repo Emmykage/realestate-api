@@ -14,16 +14,6 @@ class Api::V1::WalletsController < ApplicationController
     render json: @wallet
   end
 
-  # POST /wallets
-  # def create
-  #   @wallet = Wallet.new(wallet_params)
-
-  #   if @wallet.save
-  #     render json: @wallet, status: :created, location: @wallet
-  #   else
-  #     render json: @wallet.errors, status: :unprocessable_entity
-  #   end
-  # end
 
   # PATCH/PUT /wallets/1
   def update

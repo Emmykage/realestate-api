@@ -18,7 +18,7 @@ class Api::V1::AssetsController < ApplicationController
     @asset = Asset.new(asset_params)
 
     if @asset.save
-      render json: @asset, status: :created, location: @asset
+      render json: @asset, status: :created
     else
       render json: @asset.errors, status: :unprocessable_entity
     end

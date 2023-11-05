@@ -18,7 +18,7 @@ class Api::V1::PortfoliosController < ApplicationController
     @portfolio = Portfolio.new(portfolio_params)
 
     if @portfolio.save
-      render json: @portfolio, status: :created, location: @portfolio
+      render json: @portfolio, status: :created
     else
       render json: @portfolio.errors, status: :unprocessable_entity
     end
