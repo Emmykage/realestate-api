@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  resources :transactions
-  resources :portfolios
-  resources :wallets
 
   namespace :api do
     namespace :v1 do 
+      resources :transactions
+      resources :portfolios
+      resources :wallets
+    
       resources :assets
       resources :users do
         collection do

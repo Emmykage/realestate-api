@@ -25,6 +25,7 @@ class Api::V1::UsersController < ApplicationController
 
     if @user.valid?      
       token = encode_token({user_id: @user.id})
+      initialize_wallet
       render json:{user: @user, token: token},  status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -34,6 +35,7 @@ class Api::V1::UsersController < ApplicationController
 
   def login 
     @user = User.find_by(email: user_params[:email])
+    initialize_wallet
 
     if @user && @user.authenticate(user_params[:password])
       token = encode_token({user_id: @user.id})

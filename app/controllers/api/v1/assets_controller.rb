@@ -1,5 +1,6 @@
 class Api::V1::AssetsController < ApplicationController
   before_action :set_asset, only: %i[ show update destroy ]
+  before_action :authorize, only: %i[ create ]
 
   # GET /assets
   def index
