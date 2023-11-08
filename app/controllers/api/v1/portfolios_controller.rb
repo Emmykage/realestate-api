@@ -4,7 +4,7 @@ class Api::V1::PortfoliosController < ApplicationController
 
   # GET /portfolios
   def index
-    @portfolios = Portfolio.all
+    @portfolios = @user.portfolios.all
 
     render json: @portfolios
   end
