@@ -4,9 +4,9 @@ class Api::V1::WalletsController < ApplicationController
 
   # GET /wallets
   def index
-    @wallets = Wallet.all
+    @wallet = @user.wallet
 
-    render json: @wallets
+    render json: @wallet
   end
 
   # GET /wallets/1

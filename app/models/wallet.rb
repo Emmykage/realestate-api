@@ -23,6 +23,10 @@ class Wallet < ApplicationRecord
 
   def wallet_balance
     deposit - withdrawal
-    
+   
   end
+
+  
+  # binding.b
+  
 end

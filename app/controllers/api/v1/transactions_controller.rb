@@ -1,6 +1,7 @@
 class Api::V1::TransactionsController < ApplicationController
   before_action :set_transaction, only: %i[ show update destroy ]
   before_action :authorize
+  # before_action :
 
   # GET /transactions
   def index
@@ -16,7 +17,7 @@ class Api::V1::TransactionsController < ApplicationController
 
   # POST /transactions
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = @user.wallet.transactions.new(transaction_params)
 
     if @transaction.save
       render json: @transaction, status: :created
@@ -47,6 +48,6 @@ class Api::V1::TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:amount, :coin_type, :status, :address, :wallet_id)
+      params.require(:transaction).permit(:amount, :coin_type, :status, :address, :transaction_type )
     end
 end

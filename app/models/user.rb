@@ -13,7 +13,11 @@ class User < ApplicationRecord
     validates :email, uniqueness: true, format: { with: /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+\z/i, message: ":Please enter a valid email address."}
 
     def total_asset
-        portfolios.collect{|portfolio| portfolio.valid? ? portfolio.amount : 0}.sum
-         
+        # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.amount : 0}.sum
+        if assets.any?
+        assets.collect{|asset| asset.valid? ? asset.price : 0}.sum
+        else
+            0.0
+        end
     end
 end
