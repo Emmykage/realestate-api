@@ -56,7 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_113745) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "asset_category"
+    t.string "asset_category", default: "0"
   end
 
   create_table "portfolios", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -89,7 +89,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_113745) do
     t.string "email"
     t.string "phone_no"
     t.string "password_digest"
-    t.string "role"
+    t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

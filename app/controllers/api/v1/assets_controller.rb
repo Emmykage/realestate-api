@@ -6,7 +6,10 @@ class Api::V1::AssetsController < ApplicationController
   def index
     @assets = Asset.all
 
-    render json: @assets
+    @top_assets = @assets.order(created_at: :asc).first(3)
+
+
+    render json: {assets: @assets, recently_added: @top_assets}
   end
 
   # GET /assets/1
@@ -47,6 +50,6 @@ class Api::V1::AssetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def asset_params
-      params.require(:asset).permit(:name, :address, :tenure, :sale_type, :area, :number_of_bedrooms, :number_of_bathrooms, :price, :images, :status)
+      params.require(:asset).permit(:name, :address, :tenure, :sale_type, :area, :number_of_bedrooms, :number_of_bathrooms, :price, :images, :status, :asset_category)
     end
 end
