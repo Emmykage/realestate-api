@@ -1,16 +1,17 @@
 Rails.application.routes.draw do
-
+  
   namespace :api do
     namespace :v1 do 
       resources :transactions
       resources :portfolios
       resources :wallets
-    
+      resources :blogs
       resources :assets
       resources :users do
         collection do
           post :login
           get :account
+          patch :update_account
         end
       end
     end

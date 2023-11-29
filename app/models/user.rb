@@ -2,6 +2,7 @@ class User < ApplicationRecord
     has_secure_password
     has_one :wallet
     has_many :portfolios
+    has_many :blogs
     has_many :assets, through: :portfolios
 
 

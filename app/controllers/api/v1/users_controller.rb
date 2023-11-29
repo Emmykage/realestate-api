@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: %i[ show update destroy ]
-  before_action :authorize, only: [:index, :show, :update, :account]
+  before_action :authorize, only: [:index, :show, :update, :account, :update_account]
 
   # GET /users
   def index
@@ -48,6 +48,15 @@ class Api::V1::UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update_account
+    
     if @user.update(user_params)
       render json: @user
     else
