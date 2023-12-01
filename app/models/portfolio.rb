@@ -1,6 +1,7 @@
 class Portfolio < ApplicationRecord
   belongs_to :user
   belongs_to :asset
+  has_many :portfolio_interests
 
   enum :status, {active: 0, inactive: 1}
 
@@ -13,8 +14,11 @@ class Portfolio < ApplicationRecord
   end
 
   def investment_interest 
-    0.0
-
+    if portfolio_interests.any?
+    portfolio_interests.collect{|profit| profit.interest}.sum
+      else
+      0.0
+    end
     
   end
 end
