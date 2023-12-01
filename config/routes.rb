@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :portfolio_interests
   
   namespace :api do
     namespace :v1 do 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_30_222213) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_01_103612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -70,6 +70,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_222213) do
     t.index ["user_id"], name: "index_blogs_on_user_id"
   end
 
+  create_table "portfolio_interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.decimal "interest"
+    t.uuid "portfolio_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "withdrawn", default: false
+    t.index ["portfolio_id"], name: "index_portfolio_interests_on_portfolio_id"
+  end
+
   create_table "portfolios", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "amount"
     t.boolean "paid"
@@ -79,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_222213) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "interest"
+    t.integer "status", default: 0
     t.index ["asset_id"], name: "index_portfolios_on_asset_id"
     t.index ["user_id"], name: "index_portfolios_on_user_id"
   end
@@ -117,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_222213) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blogs", "users"
+  add_foreign_key "portfolio_interests", "portfolios"
   add_foreign_key "portfolios", "assets"
   add_foreign_key "portfolios", "users"
   add_foreign_key "transactions", "wallets"
