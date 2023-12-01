@@ -28,7 +28,9 @@ class Api::V1::UsersController < ApplicationController
       initialize_wallet
       render json:{user: @user, token: token},  status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      # render json: @user.errors, status: :unprocessable_entity
+      render json: { error: 'Invalid user or password', message: @user.errors}, status: :unprocessable_entity
+
     end
   end
 
@@ -41,7 +43,7 @@ class Api::V1::UsersController < ApplicationController
       token = encode_token({user_id: @user.id})
       render json: {user: @user, token: token}, status: :ok 
     else
-      render json: {error: "invalid user or password"}, status: :unprocessable_entity
+      render json: {error: "invalid user or password", message: @user.errors}, status: :unprocessable_entity
 
     end 
   end

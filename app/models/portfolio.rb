@@ -9,4 +9,10 @@ class Portfolio < ApplicationRecord
     raise ActiveRecord::RecordNotSaved, "You have limited funds in your wallet"  unless amount < user.wallet.wallet_balance
     true    
   end
+
+  def investment_interest 
+    0.0
+
+    
+  end
 end

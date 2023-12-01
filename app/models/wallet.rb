@@ -22,7 +22,7 @@ class Wallet < ApplicationRecord
   end
 
   def wallet_balance
-    deposit - withdrawal
+    deposit - withdrawal - user.total_asset
    
   end
 
