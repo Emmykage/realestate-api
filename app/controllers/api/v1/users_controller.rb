@@ -15,45 +15,45 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def account
-    render json: @user
+    render json: @current_user
     
   end
 
   # POST /users
   def create
-    @user = User.create(user_params)
+    @current_user = User.create(user_params)
 
-    if @user.valid?      
-      token = encode_token({user_id: @user.id})
+    if @current_user.valid?      
+      token = encode_token({user_id: @current_user.id})
       initialize_wallet
-      render json:{user: @user, token: token},  status: :created
+      render json:{user: @current_user, token: token},  status: :created
     else
       # render json: @user.errors, status: :unprocessable_entity
-      render json: { error: 'Invalid user or password', message: @user.errors}, status: :unprocessable_entity
+      render json: { error: 'Invalid user or password', message: @current_user.errors}, status: :unprocessable_entity
 
     end
   end
 
 
   def login 
-    @user = User.find_by(email: user_params[:email])
+    @current_user = User.find_by(email: user_params[:email])
     initialize_wallet
 
-    if @user && @user.authenticate(user_params[:password])
-      token = encode_token({user_id: @user.id})
-      render json: {user: @user, token: token}, status: :ok 
+    if @current_user && @current_user.authenticate(user_params[:password])
+      token = encode_token({user_id: @current_user.id})
+      render json: {user: @current_user, token: token}, status: :ok 
     else
-      render json: {error: "invalid user or password", message: @user.errors}, status: :unprocessable_entity
+      render json: {error: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
 
     end 
   end
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      render json: @user
+    if @current_user.update(user_params)
+      render json: @current_user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @current_user.errors, status: :unprocessable_entity
     end
   end
 
@@ -68,7 +68,7 @@ class Api::V1::UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    @user.destroy
+    @current_user.destroy
   end
 
   private

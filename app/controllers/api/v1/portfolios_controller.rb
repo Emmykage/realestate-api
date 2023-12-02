@@ -4,7 +4,7 @@ class Api::V1::PortfoliosController < ApplicationController
 
   # GET /portfolios
   def index
-    @portfolios = @user.portfolios.all
+    @portfolios = @current_user.portfolios.all
 
     render json: @portfolios
   end
@@ -16,7 +16,7 @@ class Api::V1::PortfoliosController < ApplicationController
 
   # POST /portfolios
   def create
-    @portfolio = @user.portfolios.new(portfolio_params)
+    @portfolio = @current_user.portfolios.new(portfolio_params)
 
     if @portfolio.save
       render json: @portfolio, status: :created

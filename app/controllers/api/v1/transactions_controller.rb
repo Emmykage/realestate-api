@@ -17,7 +17,7 @@ class Api::V1::TransactionsController < ApplicationController
 
   # POST /transactions
   def create
-    @transaction = @user.wallet.transactions.new(transaction_params)
+    @transaction = @current_user.wallet.transactions.new(transaction_params)
 
     if @transaction.save
       render json: @transaction, status: :created
