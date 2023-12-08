@@ -1,4 +1,4 @@
-class PortfolioInterestsController < ApplicationController
+class Api::V1::PortfolioInterestsController < ApplicationController
   before_action :set_portfolio_interest, only: %i[ show update destroy ]
 
   # GET /portfolio_interests
@@ -15,10 +15,11 @@ class PortfolioInterestsController < ApplicationController
 
   # POST /portfolio_interests
   def create
-    @portfolio_interest = PortfolioInterest.new(portfolio_interest_params)
+    portfolio = Portfolio.find(params[:portfolio_id])
+    @portfolio_interest = portfolio.portfolio_interests.new(portfolio_interest_params)
 
     if @portfolio_interest.save
-      render json: @portfolio_interest, status: :created, location: @portfolio_interest
+      render json: @portfolio_interest, status: :created
     else
       render json: @portfolio_interest.errors, status: :unprocessable_entity
     end

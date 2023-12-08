@@ -8,6 +8,12 @@ class Api::V1::PortfoliosController < ApplicationController
 
     render json: @portfolios
   end
+  def portfolio_index 
+    user = User.find(params[:id])
+    portfolios = user.portfolios
+    render json: portfolios
+    
+  end
 
   # GET /portfolios/1
   def show

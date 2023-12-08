@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  resources :portfolio_interests
+
   
   namespace :api do
     namespace :v1 do 
       resources :transactions
-      resources :portfolios
+      resources :portfolios do
+        resources :portfolio_interests
+      end
       resources :wallets
       resources :blogs
       resources :assets
@@ -15,6 +17,7 @@ Rails.application.routes.draw do
           patch :update_account
         end
       end
+      get 'portfolios_user/:id', to: "portfolios#portfolio_index"
     end
 
 
