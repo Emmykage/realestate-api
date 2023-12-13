@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-
   
   namespace :api do
     namespace :v1 do 
+      resources :earning_transactions
+      resources :earnings
       resources :transactions
       resources :portfolios do
         resources :portfolio_interests

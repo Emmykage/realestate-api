@@ -1,6 +1,7 @@
 class User < ApplicationRecord
     has_secure_password
     has_one :wallet
+    has_one :earning
     has_many :portfolios
     has_many :blogs
     has_many :assets, through: :portfolios
@@ -30,5 +31,14 @@ class User < ApplicationRecord
         else
             0.0
         end
+    end
+
+    def net_earnings 
+        total_earnings - earning.withdraw_earning
+    end
+
+    def withdrawable_funds
+        net_earnings + wallet.wallet_balance
+      
     end
 end

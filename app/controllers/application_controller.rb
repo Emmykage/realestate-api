@@ -42,4 +42,17 @@ class ApplicationController < ActionController::API
         @wallet = @current_user.create_wallet
       
     end
+
+    def initialize_earning
+        # binding.b
+
+        @earning ||= Earning.find_by(user_id: @current_user.id)
+        # binding.b
+
+        return unless @earning.nil?
+        # binding.b
+
+        @earning = @current_user.create_earning
+      
+    end
 end
