@@ -2,6 +2,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: %i[ show update destroy ]
   before_action :authorize, only: [:index, :show, :update, :account, :update_account]
 
+
   # GET /users
   def index
     @users = User.all
@@ -38,6 +39,7 @@ class Api::V1::UsersController < ApplicationController
   def login 
     @current_user = User.find_by(email: user_params[:email])
     initialize_wallet
+    initialize_earning
 
     if @current_user && @current_user.authenticate(user_params[:password])
       token = encode_token({user_id: @current_user.id})

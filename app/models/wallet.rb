@@ -5,7 +5,7 @@ class Wallet < ApplicationRecord
 
   def deposit
     if transactions.where(transaction_type: "deposit").any?
-      transactions.where(status: "completed").collect{|transaction| transaction.amount}.sum 
+      transactions.where(transaction_type: "deposit").where(status: "completed").collect{|transaction| transaction.amount}.sum 
     else 
       0.0
 
@@ -15,7 +15,7 @@ class Wallet < ApplicationRecord
 
   def withdrawal 
     if transactions.where(transaction_type: "withdraw").any?
-      transactions.where(transaction_type: "withdraw").collect{|transaction| transaction.amount}.sum 
+      transactions.where(transaction_type: "withdraw").where(status: "completed").collect{|transaction| transaction.amount}.sum 
     else 
       0.0
     end
@@ -23,11 +23,9 @@ class Wallet < ApplicationRecord
 
   def wallet_balance
     
-    (user.net_earnings + deposit) - (withdrawal + user.total_asset)
+    (user.total_earnings - user.net_earnings + deposit) - (withdrawal + user.total_asset)
    
   end
 
-  
-  # binding.b
   
 end

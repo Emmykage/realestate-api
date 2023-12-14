@@ -4,6 +4,7 @@ class User < ApplicationRecord
     has_one :earning
     has_many :portfolios
     has_many :blogs
+    has_many :earning_transactions, through: :earning
     has_many :assets, through: :portfolios
     has_many :portfolio_interest, through: :portfolios
 
@@ -34,11 +35,7 @@ class User < ApplicationRecord
     end
 
     def net_earnings 
-        total_earnings - earning.withdraw_earning
-    end
-
-    def withdrawable_funds
-        net_earnings + wallet.wallet_balance
-      
+        # total_earnings - earning.withdraw_earning
+        earning.net_earnings
     end
 end

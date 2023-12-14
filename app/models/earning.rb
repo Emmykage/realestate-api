@@ -12,5 +12,8 @@ class Earning < ApplicationRecord
     end
   
   end
+  def net_earnings
+    user.total_earnings - withdraw_earning
+  end
 
 end
