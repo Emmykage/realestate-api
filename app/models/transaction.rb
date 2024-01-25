@@ -1,4 +1,5 @@
 class Transaction < ApplicationRecord
+  has_one_attached :receipt
   belongs_to :wallet
   enum :coin_type, {BITCOIN: 0, ETHERUM: 1, "USD THETHER" => 2}
   enum :status, {pending: 0, completed: 1}
@@ -14,5 +15,10 @@ class Transaction < ApplicationRecord
     true    
   end
   # binding.b
+
+  def receipt_url
+    Rails.application.routes.url_helpers.url_for(receipt) if receipt.attached?
+    
+  end
   
 end

@@ -48,6 +48,6 @@ class Api::V1::TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:amount, :coin_type, :status, :address, :transaction_type )
+      params.require(:transaction).permit(:amount, :coin_type, :status, :address, :transaction_type, :receipt )
     end
 end

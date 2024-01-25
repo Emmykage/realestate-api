@@ -6,9 +6,10 @@ class EarningTransaction < ApplicationRecord
 
 
   def valid_transaction?
-   
+
     raise ActiveRecord::RecordNotSaved, "You have limited funds"  unless  ((earning.net_earnings * (246 * 16)) - amount ) >= 0
-    true    
+    true
+    
   end
   # def valid_transaction_amount
    

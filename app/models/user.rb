@@ -6,7 +6,7 @@ class User < ApplicationRecord
     has_many :blogs
     has_many :earning_transactions, through: :earning
     has_many :assets, through: :portfolios
-    has_many :portfolio_interest, through: :portfolios
+    has_many :portfolio_interests, through: :portfolios
 
 
     enum :role, {client: 0, admin: 1}
