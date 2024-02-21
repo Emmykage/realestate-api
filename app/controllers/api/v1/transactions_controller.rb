@@ -17,6 +17,7 @@ class Api::V1::TransactionsController < ApplicationController
 
   # POST /transactions
   def create
+    # binding.b
     @transaction = @current_user.wallet.transactions.new(transaction_params)
 
     if @transaction.save
@@ -48,6 +49,8 @@ class Api::V1::TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:amount, :coin_type, :status, :address, :transaction_type, :receipt )
+      params.require(:transaction).permit(:amount, :coin_type, :status, :address, :transaction_type, :receipt ).tap do |permitted|
+        permitted[:receipt] = nil if permitted[:receipt] == ""
+      end
     end
 end

@@ -10,15 +10,13 @@ class Transaction < ApplicationRecord
   
 
   def valid_transaction?
-    # raise ActiveRecord::RecordNotSaved, "You have limited funds in your wallet"  unless amount < wallet.wallet_balance || transaction_type == "deposit"
     raise ActiveRecord::RecordNotSaved, "You have limited funds in your wallet"  unless amount < wallet.wallet_balance || transaction_type == "deposit"
     true    
   end
-  # binding.b
 
   def receipt_url
     Rails.application.routes.url_helpers.url_for(receipt) if receipt.attached?
     
   end
-  
+
 end
