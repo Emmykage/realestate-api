@@ -30,9 +30,14 @@ class ApplicationController < ActionController::API
     end
 
     def authorize
-        render json: { message: "you have to log in"} unless 
+        render json: { message: "you have to log in"} unless
         authorized_user
           
+    end
+
+    def confirmed_user
+        render json: { message: "Please Confirm your email"} unless
+        authorized_user.confirmed
     end
 
     def initialize_wallet 

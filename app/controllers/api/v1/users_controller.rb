@@ -17,7 +17,6 @@ class Api::V1::UsersController < ApplicationController
 
   def account
     render json: @current_user
-    
   end
 
   # POST /users
@@ -29,7 +28,10 @@ class Api::V1::UsersController < ApplicationController
 
       token = encode_token({user_id: @current_user.id})
       initialize_wallet
-      render json:{user: @current_user, token: token},  status: :created
+      initialize_earning
+
+      # render json:{user: @current_user, token: token},  status: :created
+      render json: { success: 'confirmation email send' }, status: :ok
     else
       # render json: @user.errors, status: :unprocessable_entity
       render json: { error: 'Invalid user or password', message: @current_user.errors}, status: :unprocessable_entity
@@ -52,6 +54,40 @@ class Api::V1::UsersController < ApplicationController
     end 
   end
 
+  def confirm_email 
+    user = User.find_by(confirmation_token: params[:confirmation_token])
+    binding.b
+    if user 
+      user.confirm_email 
+      render json: { message: 'Email confirmed successfully'}
+    else 
+      render json: {error: 'Invalid confirmation token'}, status: :unprocessable_entity
+
+    end
+    
+  end
+  
+  def forgot_password 
+    user = User.find_by(email: params[:email])
+    binding.b
+    if user 
+      user.generate_reset_password_token
+      UserMailer.password_reset_instructions(user).deliver_now 
+      render json: {message: "Reset password Instructions sent. Please check your mail box"}
+    else 
+      render json: {errors: "user not found with the email"}, status: :unprocessable_entity
+    end  
+  end
+
+  def reset_password 
+    user  = User.find_by(reset_password_token: params[:reset_password_token])
+    if user && user.reset_password_sent_at > 1.hour.ago 
+      user.update(password: params[:password], reset_password_token: nil, reset_password_sent_at: nil)
+    else 
+      render json: {errors: "invalid or expired password token"}, status: :unprocessable_entity
+    end 
+  end
+
   # PATCH/PUT /users/1
   def update
     if @current_user.update(user_params)
@@ -61,7 +97,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def update_account
+ def update_account
     
     if @user.update(user_params)
       render json: @user

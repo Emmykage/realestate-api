@@ -8,6 +8,9 @@ class User < ApplicationRecord
     has_many :assets, through: :portfolios
     has_many :portfolio_interests, through: :portfolios
 
+    before_create :generate_confirmation_token 
+    after_create :send_confirmation_email
+
 
     enum :role, {client: 0, admin: 1}
 
@@ -34,8 +37,42 @@ class User < ApplicationRecord
         end
     end
 
-    def net_earnings 
-        # total_earnings - earning.withdraw_earning
+    def net_earnings
         earning.net_earnings
+        # 0.0
     end
+    def confirmed 
+        confirmed_at.present?      
+    end
+ 
+  
+    def generate_reset_password_token 
+        self.reset_password_token = SecureRandom.hex(10)
+        self.reset_password_sent_at = Time.current
+    #   binding.b
+    end
+
+    private 
+
+    def generate_confirmation_token 
+        self.confirmation_token = SecureRandom.hex(10)
+        # self.confirmation_token =  SecureRandom.urlsafe_base64 
+        self.confirmation_sent_at = Time.now
+            
+    end
+
+    def send_confirmation_email 
+        SendConfirmationInstructionJob.perform_now(self)
+        # SendConfirmationInstructionJob
+      
+    end
+
+    def email_confirmation
+        self.confirmed_at = Time.now 
+        self.confirmation_token = nil
+      save!
+    end
+
+  
+
 end
