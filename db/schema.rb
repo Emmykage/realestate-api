@@ -71,7 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_24_063821) do
   end
 
   create_table "earning_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.decimal "amount"
+    t.decimal "amount", default: "0.0"
     t.uuid "earning_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -96,13 +96,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_24_063821) do
 
   create_table "portfolios", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "amount"
-    t.boolean "paid"
+    t.boolean "paid", default: true
     t.string "portfolio_name"
     t.uuid "user_id", null: false
     t.uuid "asset_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "interest"
+    t.decimal "interest", default: "0.0"
     t.integer "status", default: 0
     t.index ["asset_id"], name: "index_portfolios_on_asset_id"
     t.index ["user_id"], name: "index_portfolios_on_user_id"

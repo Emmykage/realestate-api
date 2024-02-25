@@ -30,6 +30,8 @@ class Api::V1::UsersController < ApplicationController
       initialize_wallet
       initialize_earning
 
+      # binding.b
+
       # render json:{user: @current_user, token: token},  status: :created
       render json: { success: 'confirmation email send' }, status: :ok
     else
@@ -54,18 +56,6 @@ class Api::V1::UsersController < ApplicationController
     end 
   end
 
-  def confirm_email 
-    user = User.find_by(confirmation_token: params[:confirmation_token])
-    binding.b
-    if user 
-      user.confirm_email 
-      render json: { message: 'Email confirmed successfully'}
-    else 
-      render json: {error: 'Invalid confirmation token'}, status: :unprocessable_entity
-
-    end
-    
-  end
   
   def forgot_password 
     user = User.find_by(email: params[:email])
