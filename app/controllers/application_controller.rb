@@ -41,6 +41,7 @@ class ApplicationController < ActionController::API
     end
 
     def initialize_wallet 
+
         @wallet ||= Wallet.find_by(user_id: @current_user.id)
         return unless @wallet.nil?
 

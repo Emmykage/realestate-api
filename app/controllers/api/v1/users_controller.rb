@@ -30,10 +30,9 @@ class Api::V1::UsersController < ApplicationController
       initialize_wallet
       initialize_earning
 
-      # binding.b
 
-      # render json:{user: @current_user, token: token},  status: :created
-      render json: { success: 'confirmation email send' }, status: :ok
+      render json: {user: @current_user},  status: :created
+
     else
       # render json: @user.errors, status: :unprocessable_entity
       render json: { error: 'Invalid user or password', message: @current_user.errors}, status: :unprocessable_entity
@@ -43,17 +42,23 @@ class Api::V1::UsersController < ApplicationController
 
 
   def login 
-    @current_user = User.find_by(email: user_params[:email])
+    @current_user = User.find_by(email: user_params[:email].downcase)
+    if @current_user
     initialize_wallet
     initialize_earning
 
-    if @current_user && @current_user.authenticate(user_params[:password])
-      token = encode_token({user_id: @current_user.id})
-      render json: {user: @current_user, token: token}, status: :ok 
-    else
-      render json: {error: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
+      if @current_user.authenticate(user_params[:password])
+        token = encode_token({user_id: @current_user.id})
+        render json: {user: @current_user, token: token}, status: :ok 
+      else
+        render json: {error: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
 
-    end 
+      end 
+    else
+      render json: {error: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
+
+
+    end
   end
 
   
