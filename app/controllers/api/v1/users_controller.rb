@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
     @current_user = User.create(user_params)
 
     if @current_user.valid?      
-      UserMailer.with(user: @user).confirmation_email.deliver_later
+      # UserMailer.with(user: @user).confirmation_email.deliver_later
 
       token = encode_token({user_id: @current_user.id})
       initialize_wallet
