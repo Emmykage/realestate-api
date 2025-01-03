@@ -23,7 +23,7 @@ class Api::V1::UsersController < ApplicationController
   def create
     @current_user = User.create(user_params)
 
-    if @current_user.valid?      
+    if @current_user.valid?
       # UserMailer.with(user: @user).confirmation_email.deliver_later
 
       token = encode_token({user_id: @current_user.id})
@@ -41,7 +41,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
 
-  def login 
+  def login
     @current_user = User.find_by(email: user_params[:email].downcase)
     if @current_user
     initialize_wallet
@@ -49,11 +49,11 @@ class Api::V1::UsersController < ApplicationController
 
       if @current_user.authenticate(user_params[:password])
         token = encode_token({user_id: @current_user.id})
-        render json: {user: @current_user, token: token}, status: :ok 
+        render json: {user: @current_user, token: token}, status: :ok
       else
         render json: {error: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
 
-      end 
+      end
     else
       render json: {error: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
 
@@ -61,26 +61,25 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  
-  def forgot_password 
+
+  def forgot_password
     user = User.find_by(email: params[:email])
-    binding.b
-    if user 
+    if user
       user.generate_reset_password_token
-      UserMailer.password_reset_instructions(user).deliver_now 
+      UserMailer.password_reset_instructions(user).deliver_now
       render json: {message: "Reset password Instructions sent. Please check your mail box"}
-    else 
+    else
       render json: {errors: "user not found with the email"}, status: :unprocessable_entity
-    end  
+    end
   end
 
-  def reset_password 
+  def reset_password
     user  = User.find_by(reset_password_token: params[:reset_password_token])
-    if user && user.reset_password_sent_at > 1.hour.ago 
+    if user && user.reset_password_sent_at > 1.hour.ago
       user.update(password: params[:password], reset_password_token: nil, reset_password_sent_at: nil)
-    else 
+    else
       render json: {errors: "invalid or expired password token"}, status: :unprocessable_entity
-    end 
+    end
   end
 
   # PATCH/PUT /users/1
@@ -93,7 +92,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
  def update_account
-    
+
     if @user.update(user_params)
       render json: @user
     else

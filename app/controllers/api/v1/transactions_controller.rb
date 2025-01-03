@@ -17,7 +17,6 @@ class Api::V1::TransactionsController < ApplicationController
 
   # POST /transactions
   def create
-    # binding.b
     @transaction = @current_user.wallet.transactions.new(transaction_params)
 
     if @transaction.save

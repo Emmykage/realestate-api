@@ -8,7 +8,7 @@ class User < ApplicationRecord
     has_many :assets, through: :portfolios
     has_many :portfolio_interests, through: :portfolios
 
-    before_create :generate_confirmation_token 
+    before_create :generate_confirmation_token
     after_create :send_confirmation_email
 
 
@@ -42,34 +42,34 @@ class User < ApplicationRecord
         # 0.0
     end
     def confirmed?
-        confirmed_at.present?      
+        confirmed_at.present?
     end
- 
-  
-    def generate_reset_password_token 
+
+
+    def generate_reset_password_token
         self.reset_password_token = SecureRandom.hex(10)
         self.reset_password_sent_at = Time.current
-    #   binding.b
+
     end
     def email_confirmation
-        self.confirmed_at = Time.now 
+        self.confirmed_at = Time.now
         self.confirmation_token = nil
       save!
     end
-    
-    private 
 
-    def generate_confirmation_token 
-        self.confirmation_token = SecureRandom.hex(10) 
-        # self.confirmation_token = SecureRandom.urlsafe_base64 
+    private
+
+    def generate_confirmation_token
+        self.confirmation_token = SecureRandom.hex(10)
+        # self.confirmation_token = SecureRandom.urlsafe_base64
         self.confirmation_sent_at = Time.now
-            
+
     end
 
-    def send_confirmation_email 
+    def send_confirmation_email
         SendConfirmationInstructionJob.perform_now(self)
         # SendConfirmationInstructionJob
-      
+
     end
 
 

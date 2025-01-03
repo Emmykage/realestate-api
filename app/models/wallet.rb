@@ -21,8 +21,7 @@ class Wallet < ApplicationRecord
     end
   end
 
-  def wallet_balance
-    
+  def wallet_balance    
     (user.total_earnings - user.net_earnings + deposit) - (withdrawal + user.total_asset)
     end
 

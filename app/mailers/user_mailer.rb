@@ -1,7 +1,6 @@
 class UserMailer < ApplicationMailer
     def confirmation_email(user)
         @user = user
-        # binding.b
 
         @confirmation_token = @user.confirmation_token
         @confirmation_url = confirmation_url(@user.confirmation_token)
