@@ -21,7 +21,7 @@ class Api::V1::BlogsController < ApplicationController
     @blog = @current_user.blogs.new(blog_params)
 
     if @blog.save
-      render json: @blog, status: :created, location: @blog
+      render json: @blog, status: :created
     else
       render json: @blog.errors, status: :unprocessable_entity
     end
@@ -49,6 +49,6 @@ class Api::V1::BlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def blog_params
-      params.require(:blog).permit(:title, :secondary_text, :body, :image)
+      params.require(:blog).permit(:title, :description_body, :body, :image, :date)
     end
 end

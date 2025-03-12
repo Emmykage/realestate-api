@@ -38,8 +38,9 @@ class User < ApplicationRecord
     end
 
     def net_earnings
-        earning.net_earnings
-        # 0.0
+        # binding.b
+        # earning.net_earnings
+        0.0
     end
     def confirmed?
         confirmed_at.present?

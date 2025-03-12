@@ -11,6 +11,7 @@ class CreateAssets < ActiveRecord::Migration[7.0]
       t.decimal :price
       t.string :images
       t.string :status
+      t.text :asset_description
 
       t.timestamps
     end
