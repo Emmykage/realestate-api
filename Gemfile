@@ -42,7 +42,6 @@ gem 'jwt'
 gem 'active_model_serializers', '~> 0.10.2'
 # gem 'sidekiq'
 gem 'redis'
-gem 'sprockets-rails'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
