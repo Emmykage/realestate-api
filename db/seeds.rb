@@ -14,7 +14,6 @@ admin = User.find_or_create_by!(email: 'jondoe@phoenix-realestate.com') do  |use
     user.password = 'chemistry'
     user.phone_no = '07064334160'
     user.role = 'admin'
-    user.skip_confirmation_notification! if user.respond_to?(:skip_confirmation_notification!)
 
 
 end
@@ -25,7 +24,6 @@ client = User.find_or_create_by!(email: 'yankee@gmail.com') do  |user|
     user.password = 'chemistry'
     user.phone_no = '07064334161'
     user.role = 'client'
-    user.skip_confirmation_notification! if user.respond_to?(:skip_confirmation_notification!)
 
 
 end

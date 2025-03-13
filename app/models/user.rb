@@ -9,7 +9,7 @@ class User < ApplicationRecord
     has_many :portfolio_interests, through: :portfolios
 
     before_create :generate_confirmation_token
-    after_create :send_confirmation_email
+    # after_create :send_confirmation_email
 
 
     enum :role, {client: 0, admin: 1}
