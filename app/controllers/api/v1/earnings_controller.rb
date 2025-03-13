@@ -19,7 +19,7 @@ class Api::V1::EarningsController < ApplicationController
     @earning = Earning.new(earning_params)
 
     if @earning.save
-      render json: @earning, status: :created, location: @earning
+      render json: @earning, status: :created
     else
       render json: @earning.errors, status: :unprocessable_entity
     end
