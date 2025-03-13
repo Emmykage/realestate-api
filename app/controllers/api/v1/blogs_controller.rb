@@ -8,12 +8,12 @@ class Api::V1::BlogsController < ApplicationController
   def index
     @blogs = Blog.all
 
-    render json: @blogs
+    render json:{data: ActiveModelSerializers::SerializableResource.new(@blogs)}
   end
 
   # GET /blogs/1
   def show
-    render json: @blog
+    render json: {data: BlogSerializer.new(@blog)}
   end
 
   # POST /blogs
@@ -49,6 +49,6 @@ class Api::V1::BlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def blog_params
-      params.require(:blog).permit(:title, :description_body, :body, :image, :date)
+      params.require(:blog).permit(:title, :blog_body, :image, :date)
     end
 end
