@@ -36,12 +36,13 @@ gem "image_processing", "~> 1.2"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 
-# added gems 
+# added gems
 
 gem 'jwt'
 gem 'active_model_serializers', '~> 0.10.2'
 # gem 'sidekiq'
 gem 'redis'
+gem 'sprockets-rails'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -55,4 +56,3 @@ group :development do
   gem 'letter_opener'
 
 end
-
