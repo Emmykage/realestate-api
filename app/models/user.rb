@@ -37,6 +37,11 @@ class User < ApplicationRecord
         end
     end
 
+    def admin
+        role  === "admin"
+    end
+
+
     def net_earnings
         # binding.b
         # earning.net_earnings

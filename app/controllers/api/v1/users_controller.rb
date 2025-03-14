@@ -12,11 +12,12 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user
+    render json: {data: UserSerializer.new(@current_user)}, status: :ok
+
   end
 
   def account
-    render json: @current_user
+    render json: {data: UserSerializer.new(@current_user)}, status: :ok
   end
 
   # POST /users
@@ -31,11 +32,11 @@ class Api::V1::UsersController < ApplicationController
       initialize_earning
 
 
-      render json: {user: @current_user},  status: :created
+      render json: {data: @current_user, token: token},  status: :created
 
     else
       # render json: @user.errors, status: :unprocessable_entity
-      render json: { error: 'Invalid user or password', message: @current_user.errors}, status: :unprocessable_entity
+      render json: { message: 'Invalid user or password', message: @current_user.errors}, status: :unprocessable_entity
 
     end
   end
@@ -51,11 +52,11 @@ class Api::V1::UsersController < ApplicationController
         token = encode_token({user_id: @current_user.id})
         render json: {user: @current_user, token: token}, status: :ok
       else
-        render json: {error: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
+        render json: {message: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
 
       end
     else
-      render json: {error: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
+      render json: {message: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
 
 
     end
