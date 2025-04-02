@@ -36,7 +36,7 @@ class Api::V1::UsersController < ApplicationController
 
     else
       # render json: @user.errors, status: :unprocessable_entity
-      render json: { message: 'Invalid user or password', message: @current_user.errors}, status: :unprocessable_entity
+      render json: { message: @current_user.errors.full_messages.to_sentence}, status: :unprocessable_entity
 
     end
   end
