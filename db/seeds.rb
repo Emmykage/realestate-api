@@ -8,12 +8,45 @@
 puts "Seeding assets..."
 puts "createing users"
 
-admin = User.find_or_create_by!(email: 'jondoe@phoenix-realestate.com') do  |user|
-    user.first_name = 'jon'
-    user.last_name = 'doe'
-    user.password = 'chemistry'
-    user.phone_no = '07064334160'
-    user.role = 'admin'
+users = [
+  {
+    email: "jondoe@phoenixprecastltd.com",
+    first_name: 'jon',
+    last_name: 'doe',
+    password: 'chemistry',
+    phone_no: '07064334160',
+    role: 'admin'
+  },
+  {
+    email: "jondoe@phoenixprecastltd.com",
+    first_name: 'jane',
+    last_name: 'doe',
+    password: 'chemistry',
+    phone_no: '07064334160',
+    role: 'client'
+  },
+  {
+    email: "jondoe@phoenix-realestate.com",
+    first_name: 'jon',
+    last_name: 'doe',
+    password: 'chemistry',
+    phone_no: '07064334160',
+    role: 'admin'
+  }
+]
+
+
+users.each do |user_data|
+
+  User.find_or_create_by!(email: user_data[:email]) do  |user|
+    user.first_name = user_data[:first_name]
+    user.last_name = user_data[:last_name]
+    user.password = user_data[:password]
+    user.phone_no = user_data[:phone_no]
+    user.role = user_data[:role]
+
+
+end
 
 
 end
