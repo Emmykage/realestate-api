@@ -26,7 +26,7 @@ class Api::V1::AssetsController < ApplicationController
     if @asset.save
       render json: @asset, status: :created
     else
-      render json: @asset.errors, status: :unprocessable_entity
+      render json:{message:  @asset.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 
@@ -35,7 +35,7 @@ class Api::V1::AssetsController < ApplicationController
     if @asset.update(asset_params)
       render json: @asset
     else
-      render json: @asset.errors, status: :unprocessable_entity
+      render json:{message:  @asset.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 

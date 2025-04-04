@@ -21,7 +21,7 @@ class Api::V1::BlogsController < ApplicationController
     @blog = @current_user.blogs.new(blog_params)
 
     if @blog.save
-      render json: @blog, status: :created
+      render json: {data: @blog}, status: :created
     else
       render json: @blog.errors, status: :unprocessable_entity
     end

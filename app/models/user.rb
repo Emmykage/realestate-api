@@ -3,7 +3,7 @@ class User < ApplicationRecord
     has_one :wallet
     has_one :earning
     has_many :portfolios
-    has_many :blogs
+    has_many :blogs, dependent: :destroy
     has_many :earning_transactions, through: :earning
     has_many :assets, through: :portfolios
     has_many :portfolio_interests, through: :portfolios
