@@ -30,15 +30,16 @@ class Api::V1::BlogsController < ApplicationController
   # PATCH/PUT /blogs/1
   def update
     if @blog.update(blog_params)
-      render json: @blog
+      render json: {data: @blog}
     else
-      render json: @blog.errors, status: :unprocessable_entity
+      render json: {message: @blog.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 
   # DELETE /blogs/1
   def destroy
     @blog.destroy
+    render json: {message: "Post Deleted"}
   end
 
   private
@@ -49,6 +50,6 @@ class Api::V1::BlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def blog_params
-      params.require(:blog).permit(:title, :blog_body, :image, :date)
+      params.require(:blog).permit(:title, :blog_body, :image, :date, :description)
     end
 end

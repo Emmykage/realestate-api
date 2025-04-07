@@ -10,13 +10,12 @@ class Api::V1::AssetsController < ApplicationController
 
 
     # render json: {assets: @assets, recently_added: @top_assets}
-    render json: @assets
+    render json: {data: @assets}
   end
 
   # GET /assets/1
   def show
-    i = @asset
-    render json: @asset
+    render json: {data: @asset}
   end
 
   # POST /assets
@@ -24,16 +23,16 @@ class Api::V1::AssetsController < ApplicationController
     @asset = Asset.new(asset_params)
 
     if @asset.save
-      render json: @asset, status: :created
+      render json: {data: @asset}, status: :created
     else
-      render json:{message:  @asset.errors.full_messages.to_sentence}, status: :unprocessable_entity
+      render json: {message:  @asset.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /assets/1
   def update
     if @asset.update(asset_params)
-      render json: @asset
+      render json: {data: @asset}
     else
       render json:{message:  @asset.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
@@ -42,6 +41,7 @@ class Api::V1::AssetsController < ApplicationController
   # DELETE /assets/1
   def destroy
     @asset.destroy
+    render json: {message: "Successfully deleted"}
   end
 
   private

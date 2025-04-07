@@ -18,7 +18,7 @@ users = [
     role: 'admin'
   },
   {
-    email: "jondoe@phoenixprecastltd.com",
+    email: "janedoe@phoenixprecastltd.com",
     first_name: 'jane',
     last_name: 'doe',
     password: 'chemistry',
