@@ -10,12 +10,12 @@ class Api::V1::AssetsController < ApplicationController
 
 
     # render json: {assets: @assets, recently_added: @top_assets}
-    render json: {data: @assets}
+    render json: {data:  ActiveModelSerializers::SerializableResource.new(@assets)}
   end
 
   # GET /assets/1
   def show
-    render json: {data: @asset}
+    render json: {data: AssetSerializer.new(@asset)}
   end
 
   # POST /assets
