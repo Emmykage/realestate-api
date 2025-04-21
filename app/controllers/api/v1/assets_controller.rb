@@ -52,6 +52,23 @@ class Api::V1::AssetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def asset_params
-      params.require(:asset).permit(:name, :address, :city, :tenure, :sale_type, :area, :number_of_bedrooms, :number_of_bathrooms, :price, :status, :asset_description, :asset_category, :image, photos: [])
+      params.require(:asset).permit(
+        :name,
+        :address,
+        :city,
+        :tenure,
+        :sale_type,
+        :area,
+        :number_of_bedrooms,
+        :number_of_bathrooms,
+        :price,
+        :status,
+        :asset_description,
+        :asset_category,
+        :image,
+        :property_type,
+        features: [],     # Array of strings
+        photos: []        # Array of image URLs or uploads
+      )
     end
 end
