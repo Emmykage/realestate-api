@@ -64,6 +64,7 @@ class Api::V1::AssetsController < ApplicationController
         :price,
         :status,
         :asset_description,
+        :description_body,
         :asset_category,
         :image,
         :property_type,
