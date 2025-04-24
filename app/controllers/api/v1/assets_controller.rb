@@ -68,6 +68,7 @@ class Api::V1::AssetsController < ApplicationController
         :asset_category,
         :image,
         :property_type,
+        :mainphoto,
         features: [],     # Array of strings
         photos: []        # Array of image URLs or uploads
       )
