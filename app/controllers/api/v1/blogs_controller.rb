@@ -6,7 +6,7 @@ class Api::V1::BlogsController < ApplicationController
 
   # GET /blogs
   def index
-    @blogs = Blog.all
+    @blogs = Blog.all.order(created_at: :desc)
 
     render json:{data: ActiveModelSerializers::SerializableResource.new(@blogs)}
   end
