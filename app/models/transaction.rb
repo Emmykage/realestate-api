@@ -1,7 +1,8 @@
 class Transaction < ApplicationRecord
   has_one_attached :receipt
   belongs_to :wallet
-  enum :coin_type, {BITCOIN: 0, ETHERUM: 1, "USD THETHER" => 2}
+  belongs_to :portfolio
+  enum :coin_type, {bitcoin: 0, ethereum: 1, usdt: 2, bank: 3}
   enum :status, {pending: 0, completed: 1}
   enum :transaction_type, {deposit: 0, withdraw: 1}
 

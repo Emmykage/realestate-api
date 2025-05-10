@@ -8,16 +8,28 @@ class Api::V1::PortfoliosController < ApplicationController
 
     render json: @portfolios
   end
-  def portfolio_index 
+  def portfolio_index
     user = User.find(params[:id])
     portfolios = user.portfolios
     render json: portfolios
-    
+
   end
 
   # GET /portfolios/1
   def show
     render json: @portfolio
+  end
+
+
+  def investment
+
+    investmentId  = params[:id]
+    @current_user.create_portfolios if @current_user.portfolios.blank?
+
+    # @portfolio =  @current_user.portfolios.joins(:investment).find_by(investments: {name: investmentId})
+    @portfolio =  @current_user.investments.find_by(name: investmentId)
+
+    render json: {data: @portfolio}, status: :ok
   end
 
   # POST /portfolios
@@ -53,6 +65,6 @@ class Api::V1::PortfoliosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def portfolio_params
-      params.require(:portfolio).permit(:amount, :paid, :portfolio_name, :asset_id)
+      params.require(:portfolio).permit(:amount, :paid, :portfolio_name)
     end
 end

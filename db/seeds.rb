@@ -36,6 +36,21 @@ users = [
 ]
 
 
+investments = [
+  {
+    name: "fixed income"
+  },
+  {
+    name: "capital growth"
+  }
+]
+
+investments.each do |invest|
+  Investment.find_or_create_by!(name: invest[:name] ) do |investment|
+    investment.name = invest[:name]
+  end
+end
+
 users.each do |user_data|
 
   User.find_or_create_by!(email: user_data[:email]) do  |user|

@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
+  resources :account_profiles
+  resources :profiles
   get 'session/create'
-  
+
   namespace :api do
-    namespace :v1 do 
+    namespace :v1 do
+        resources :investments
+
+      resources :account_profiles
       resources :earning_transactions
       resources :earnings
       resources :transactions
       resources :portfolios do
+        member do
+          get :investment
+
+        end
         resources :portfolio_interests
       end
       resources :wallets
@@ -22,15 +31,15 @@ Rails.application.routes.draw do
         end
       end
       resources :password do
-        collection do 
+        collection do
           post :forgot_password
         end
       end
-       
+
       get 'portfolios_user/:id', to: "portfolios#portfolio_index"
       # get 'reset_password', to: 'users#reset_password', as: :password_reset_path
 
-     
+
     end
 
 

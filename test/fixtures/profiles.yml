@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  investment_purpose: MyString
+  investment_property: MyString
+  initial_investment: 9.99
+  investor_type: MyString
+  user: one
+
+two:
+  investment_purpose: MyString
+  investment_property: MyString
+  initial_investment: 9.99
+  investor_type: MyString
+  user: two

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bank: MyString
+  bitcoin: MyString
+  ethereum: MyString
+  usdt: MyString
+
+two:
+  bank: MyString
+  bitcoin: MyString
+  ethereum: MyString
+  usdt: MyString

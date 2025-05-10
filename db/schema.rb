@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_23_173027) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_10_085804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "account_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "bank"
+    t.string "bitcoin"
+    t.string "ethereum"
+    t.string "usdt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "action_text_rich_texts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -99,6 +108,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_23_173027) do
     t.index ["user_id"], name: "index_earnings_on_user_id"
   end
 
+  create_table "investments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "min_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "portfolio_interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "interest"
     t.uuid "portfolio_id", null: false
@@ -113,13 +129,24 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_23_173027) do
     t.boolean "paid", default: true
     t.string "portfolio_name"
     t.uuid "user_id", null: false
-    t.uuid "asset_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "interest", default: "0.0"
     t.integer "status", default: 0
-    t.index ["asset_id"], name: "index_portfolios_on_asset_id"
+    t.uuid "investment_id", null: false
+    t.index ["investment_id"], name: "index_portfolios_on_investment_id"
     t.index ["user_id"], name: "index_portfolios_on_user_id"
+  end
+
+  create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "investment_purpose"
+    t.string "investment_property"
+    t.decimal "initial_investment"
+    t.string "investor_type"
+    t.uuid "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -131,6 +158,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_23_173027) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_type"
+    t.uuid "portfolio_id", null: false
+    t.index ["portfolio_id"], name: "index_transactions_on_portfolio_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
   end
 
@@ -164,8 +193,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_23_173027) do
   add_foreign_key "earning_transactions", "earnings"
   add_foreign_key "earnings", "users"
   add_foreign_key "portfolio_interests", "portfolios"
-  add_foreign_key "portfolios", "assets"
+  add_foreign_key "portfolios", "investments"
   add_foreign_key "portfolios", "users"
+  add_foreign_key "profiles", "users"
+  add_foreign_key "transactions", "portfolios"
   add_foreign_key "transactions", "wallets"
   add_foreign_key "wallets", "users"
 end

@@ -48,13 +48,17 @@ class Api::V1::UsersController < ApplicationController
     initialize_wallet
     initialize_earning
 
-      if @current_user.authenticate(user_params[:password])
-        token = encode_token({user_id: @current_user.id})
-        render json: {user: @current_user, token: token}, status: :ok
-      else
-        render json: {message: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
 
-      end
+
+      if @current_user.authenticate(user_params[:password])
+
+        @current_user.create_portfolios  if @current_user.portfolios.blank?
+          token = encode_token({user_id: @current_user.id})
+          render json: {user: @current_user, token: token}, status: :ok
+        else
+          render json: {message: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
+
+        end
     else
       render json: {message: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
 
@@ -114,6 +118,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_no, :role, :password)
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_no, :role, :password, profile_attributes: %i[investment_purpose investment_property initial_investment investor_type])
     end
 end

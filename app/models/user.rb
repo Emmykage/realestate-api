@@ -2,14 +2,18 @@ class User < ApplicationRecord
     has_secure_password
     has_one :wallet
     has_one :earning
+    has_one :profile
     has_many :portfolios
     has_many :blogs, dependent: :destroy
     has_many :earning_transactions, through: :earning
-    has_many :assets, through: :portfolios
     has_many :portfolio_interests, through: :portfolios
+    has_many :investments, through: :portfolios
 
     before_create :generate_confirmation_token
+
+    accepts_nested_attributes_for :profile, allow_destroy: true
     # after_create :send_confirmation_email
+    after_create :create_portfolios
 
 
     enum :role, {client: 0, admin: 1}
@@ -21,26 +25,36 @@ class User < ApplicationRecord
 
     def total_asset
         # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.amount : 0}.sum
-        if assets.any?
-        assets.collect{|asset| asset.valid? ? asset.price : 0}.sum
-        else
-            0.0
-        end
+        # if assets.any?
+        # assets.collect{|asset| asset.valid? ? asset.price : 0}.sum
+        # else
+        #     0.0
+        # end
+        0.0
     end
 
     def total_earnings
         # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.amount : 0}.sum
-        if portfolios.any?
-        portfolios.collect{|portfolio| portfolio.valid? ? portfolio.investment_interest : 0}.sum
-        else
-            0.0
-        end
+        # if portfolios.any?
+        # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.investment_interest : 0}.sum
+        # else
+        #     0.0
+        # end
+        0.0
     end
 
     def admin
         role  === "admin"
     end
 
+    def create_portfolios
+        Investment.all.each do |invest|
+            portfolios.find_or_create_by!(investment_id: invest.id) do |portfolio|
+                portfolio.portfolio_name = invest.name
+            end
+        end
+
+    end
 
     def net_earnings
         # binding.b

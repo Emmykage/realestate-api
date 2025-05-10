@@ -1,0 +1,5 @@
+class RemoveAssetRefFromPortfolio < ActiveRecord::Migration[7.0]
+  def change
+    remove_reference  :portfolios, :asset, foreign_key: true
+  end
+end
