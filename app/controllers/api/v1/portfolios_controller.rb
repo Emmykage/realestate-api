@@ -4,9 +4,15 @@ class Api::V1::PortfoliosController < ApplicationController
 
   # GET /portfolios
   def index
+    @portfolios = Portfolios.all
+
+    render json: {data: ActiveModelSerializers::SerializableResource.new(@portfolios)}, status: :ok
+  end
+
+  def user
     @portfolios = @current_user.portfolios.all
 
-    render json: @portfolios
+    render json: {data: ActiveModelSerializers::SerializableResource.new(@portfolios)}, status: :ok
   end
   def portfolio_index
     user = User.find(params[:id])
@@ -17,8 +23,10 @@ class Api::V1::PortfoliosController < ApplicationController
 
   # GET /portfolios/1
   def show
-    render json: @portfolio
+    render json: {data: @portfolio}
   end
+
+
 
 
   def investment
@@ -26,10 +34,10 @@ class Api::V1::PortfoliosController < ApplicationController
     investmentId  = params[:id]
     @current_user.create_portfolios if @current_user.portfolios.blank?
 
-    # @portfolio =  @current_user.portfolios.joins(:investment).find_by(investments: {name: investmentId})
-    @portfolio =  @current_user.investments.find_by(name: investmentId)
+    @portfolio =  @current_user.portfolios.joins(:investment).find_by(investments: {name: investmentId})
+    # @portfolio =  @current_user.portfolios.find_by(name: investmentId)
 
-    render json: {data: @portfolio}, status: :ok
+    render json: {data: PortfolioSerializer.new(@portfolio)}, status: :ok
   end
 
   # POST /portfolios

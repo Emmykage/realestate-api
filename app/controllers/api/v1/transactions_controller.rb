@@ -7,7 +7,14 @@ class Api::V1::TransactionsController < ApplicationController
   def index
     @transactions = Transaction.all
 
-    render json: @transactions
+    render json: {data:TransactionSerializer.new(@transactions)}
+  end
+
+  def user
+    @transactions = @current_user.transactions.all
+
+    render json: {data: ActiveModelSerializers::SerializableResource.new(@transactions)}, status: :ok
+
   end
 
   # GET /transactions/1
@@ -20,9 +27,9 @@ class Api::V1::TransactionsController < ApplicationController
     @transaction = @current_user.wallet.transactions.new(transaction_params)
 
     if @transaction.save
-      render json: @transaction, status: :created
+      render json: {data: @transaction}, status: :created
     else
-      render json: @transaction.errors, status: :unprocessable_entity
+      render json: {message: @transaction.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 

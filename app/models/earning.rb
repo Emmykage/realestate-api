@@ -13,7 +13,6 @@ class Earning < ApplicationRecord
 
   end
   def net_earnings
-    binding.b
     user.total_earnings - withdraw_earning
   end
 

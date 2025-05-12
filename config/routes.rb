@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :account_profiles
   resources :profiles
   get 'session/create'
 
@@ -10,8 +9,15 @@ Rails.application.routes.draw do
       resources :account_profiles
       resources :earning_transactions
       resources :earnings
-      resources :transactions
+      resources :transactions do
+        collection do
+          get :user
+        end
+      end
       resources :portfolios do
+        collection do
+          get :user
+        end
         member do
           get :investment
 

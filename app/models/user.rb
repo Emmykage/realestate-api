@@ -7,6 +7,7 @@ class User < ApplicationRecord
     has_many :blogs, dependent: :destroy
     has_many :earning_transactions, through: :earning
     has_many :portfolio_interests, through: :portfolios
+    has_many :transactions, through: :wallet
     has_many :investments, through: :portfolios
 
     before_create :generate_confirmation_token

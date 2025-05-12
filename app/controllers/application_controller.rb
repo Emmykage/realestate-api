@@ -3,9 +3,9 @@ class ApplicationController < ActionController::API
         JWT.encode(payload, 'secret')
     end
 
-    def decode_token 
+    def decode_token
         auth_header = request.headers['Authorization']
-        if auth_header 
+        if auth_header
             token = auth_header.split(' ')[1]
             begin
               JWT.decode(token, 'secret', true, algorithm: 'HS256')
@@ -13,11 +13,11 @@ class ApplicationController < ActionController::API
             rescue JWT::DecodeError
                 nil
             end
-            
+
 
         end
     end
-    
+
     def authorized_user
         decode_taken = decode_token()
 
@@ -26,13 +26,13 @@ class ApplicationController < ActionController::API
             @current_user = User.find_by(id: user_id)
         end
 
-      
+
     end
 
     def authorize
-        render json: { message: "you have to log in"} unless
+        render json: { message: "you have to log in"}, status: :unprocessable_entity unless
         authorized_user
-          
+
     end
 
     def confirmed_user
@@ -40,13 +40,13 @@ class ApplicationController < ActionController::API
         authorized_user.confirmed
     end
 
-    def initialize_wallet 
+    def initialize_wallet
 
         @wallet ||= Wallet.find_by(user_id: @current_user.id)
         return unless @wallet.nil?
 
         @wallet = @current_user.create_wallet
-      
+
     end
 
     def initialize_earning
@@ -54,6 +54,6 @@ class ApplicationController < ActionController::API
         @earning ||= Earning.find_by(user_id: @current_user.id)
         return unless @earning.nil?
         @earning = @current_user.create_earning
-      
+
     end
 end
