@@ -1,4 +1,4 @@
-class ProfilesController < ApplicationController
+class Api::V1::ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show update destroy ]
 
   # GET /profiles
