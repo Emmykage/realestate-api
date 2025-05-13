@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_10_085804) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_13_033200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -110,7 +110,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_10_085804) do
 
   create_table "investments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
-    t.string "min_value"
+    t.decimal "min_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -158,7 +158,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_10_085804) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_type"
-    t.uuid "portfolio_id", null: false
+    t.uuid "portfolio_id"
     t.index ["portfolio_id"], name: "index_transactions_on_portfolio_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
   end
