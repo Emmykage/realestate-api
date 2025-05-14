@@ -7,7 +7,7 @@ class Api::V1::UsersController < ApplicationController
   def index
     @users = User.all
 
-    render json: {data: @users}, status: :ok
+    render json: {data: ActiveModelSerializers::SerializableResource.new(@users)}, status: :ok
   end
 
   # GET /users/1
