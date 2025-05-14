@@ -32,7 +32,8 @@ class Api::V1::AssetsController < ApplicationController
   # PATCH/PUT /assets/1
   def update
     if @asset.update(asset_params)
-      render json: {data: @asset}
+
+      render json: {data: @asset, messaage: "Asset update successful"}
     else
       render json:{message:  @asset.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
