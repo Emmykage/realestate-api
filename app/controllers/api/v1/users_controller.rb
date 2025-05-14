@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: {data: UserSerializer.new(@current_user)}, status: :ok
+    render json: {data: UserSerializer.new(@user)}, status: :ok
 
   end
 
