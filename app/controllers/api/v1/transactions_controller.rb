@@ -7,7 +7,10 @@ class Api::V1::TransactionsController < ApplicationController
   def index
     @transactions = Transaction.all
 
-    render json: {data:TransactionSerializer.new(@transactions)}
+    @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
+    @transactions = @transactions.where(coin_type: params[:coin_type]) if params[:coin_type].present?
+
+    render json: {data:   ActiveModelSerializers::SerializableResource.new(@transactions)}, status: :ok
   end
 
   def user

@@ -15,13 +15,26 @@ class Api::V1::PortfolioInterestsController < ApplicationController
 
   # POST /portfolio_interests
   def create
-    portfolio = Portfolio.find(params[:portfolio_id])
-    @portfolio_interest = portfolio.portfolio_interests.new(portfolio_interest_params)
+    @portfolio = Portfolio.find(portfolio_interest_params[:portfolio_id])
+    # @portfolio_interest
+
+    # if @portfolio.portfolio_name == "capital growth"
+    #  @portfolio_interest = @portfolio.portfolio_interests.new(interest: @portfolio.portfolio_investment * 0.05)
+    # elsif @portfolio.portfolio_name == "fixed income"
+    #   @portfolio_interest = @portfolio.portfolio_interests.new(interest: @portfolio.portfolio_investment * 0.03)
+
+    # end
+    # binding.b
+
+
+    # @portfolio_interest = PortfolioInterest.new(portfolio_interest_params)
+    # @portfolio_interest.portfolio = Portfolio.find(params[:portfolio_id])
+    @portfolio_interest = @portfolio.portfolio_interests.new(portfolio_interest_params)
 
     if @portfolio_interest.save
-      render json: @portfolio_interest, status: :created
+      render json: {data: @portfolio_interest, message: "interest has been added"}, status: :created
     else
-      render json: @portfolio_interest.errors, status: :unprocessable_entity
+      render json:{data: @portfolio_interest.errors}, status: :unprocessable_entity
     end
   end
 

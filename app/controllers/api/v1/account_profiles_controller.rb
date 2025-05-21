@@ -17,7 +17,7 @@ class Api::V1::AccountProfilesController < ApplicationController
     @account_profile = AccountProfile.new(account_profile_params)
 
     if @account_profile.save
-      render json:{data:  @account_profile}, status: :created, location: @account_profile
+      render json:{data:  @account_profile}, status: :created
     else
       render json: {message: @account_profile.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end

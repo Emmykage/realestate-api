@@ -15,6 +15,7 @@ class User < ApplicationRecord
     accepts_nested_attributes_for :profile, allow_destroy: true
     # after_create :send_confirmation_email
     after_create :create_portfolios
+    after_create :initialize_wallet
 
 
     enum :role, {client: 0, admin: 1}
@@ -25,24 +26,22 @@ class User < ApplicationRecord
     validates :email, uniqueness: true, format: { with: /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+\z/i, message: ":Please enter a valid email address."}
 
     def total_asset
-        # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.amount : 0}.sum
-        # if assets.any?
-        # assets.collect{|asset| asset.valid? ? asset.price : 0}.sum
-        # else
-        #     0.0
-        # end
         0.0
     end
 
+
     def total_earnings
-        # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.amount : 0}.sum
-        # if portfolios.any?
-        # portfolios.collect{|portfolio| portfolio.valid? ? portfolio.investment_interest : 0}.sum
-        # else
-        #     0.0
-        # end
-        0.0
+        portfolio_interests.joins(:portfolio).sum(:interest)
     end
+
+
+    def initialize_wallet
+        create_wallet
+    end
+
+
+
+
 
     def admin
         role  === "admin"
@@ -58,13 +57,17 @@ class User < ApplicationRecord
     end
 
     def net_earnings
-        # binding.b
-        # earning.net_earnings
+
         0.0
     end
     def confirmed?
         confirmed_at.present?
     end
+
+     def total_investment
+            wallet&.calculated_investment || 0.0
+      end
+
 
 
     def generate_reset_password_token

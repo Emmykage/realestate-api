@@ -1,6 +1,9 @@
 class Portfolio < ApplicationRecord
   belongs_to :user
   has_many :portfolio_interests
+  has_many :transactions
+
+
   belongs_to :investment
 
   enum :status, {active: 0, inactive: 1}
@@ -12,6 +15,8 @@ class Portfolio < ApplicationRecord
   #   raise ActiveRecord::RecordNotSaved, "You have limited funds in your wallet"  unless amount < user.wallet.wallet_balance
   #   true
   # end
+
+
 
   def valid_transaction?
     if amount > user.wallet.wallet_balance
@@ -25,15 +30,13 @@ class Portfolio < ApplicationRecord
 
   end
 
-
-  def investment_interest
-    # if portfolio_interests.any?
-    #   portfolio_interests.collect{|profit| profit.interest}.sum
-    #   else
-    #   0.0
-    # end
-
-    0.0
+  def portfolio_investment
+    transactions.sum(:amount)
 
   end
+
+
+  def investment_interest
+      portfolio_interests.sum(:interest)
+    end
 end

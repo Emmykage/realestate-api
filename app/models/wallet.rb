@@ -18,13 +18,21 @@ class Wallet < ApplicationRecord
 
   end
 
+  def calculated_investment
+    fixed_income + capital_growth
+
+  end
+
+
+
+
+
+
+
 
   def withdrawal
-    if transactions.where(transaction_type: "withdraw").any?
-      transactions.where(transaction_type: "withdraw").where(status: "completed").collect{|transaction| transaction.amount}.sum
-    else
-      0.0
-    end
+      transactions.where(transaction_type: "withdraw", status: "completed").sum(:amount)
+
   end
 
   def wallet_balance

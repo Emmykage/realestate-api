@@ -24,6 +24,8 @@ Rails.application.routes.draw do
         end
         resources :portfolio_interests
       end
+      resources :portfolio_interests
+
       resources :wallets
       resources :blogs
       resources :assets

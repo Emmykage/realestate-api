@@ -28,8 +28,8 @@ class Api::V1::UsersController < ApplicationController
       # UserMailer.with(user: @user).confirmation_email.deliver_later
 
       token = encode_token({user_id: @current_user.id})
-      initialize_wallet
-      initialize_earning
+      # initialize_wallet
+      # initialize_earning
 
 
       render json: {data: @current_user, token: token},  status: :created
