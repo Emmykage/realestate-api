@@ -14,9 +14,12 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   def user
-    @transactions = @current_user.transactions.all
 
-    render json: {data: ActiveModelSerializers::SerializableResource.new(@transactions)}, status: :ok
+    @transactions = @current_user.transactions
+    @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
+    @transactions = @transactions.where(coin_type: params[:coin_type]) if params[:coin_type].present?
+
+    render json: {data:   ActiveModelSerializers::SerializableResource.new(@transactions)}, status: :ok
 
   end
 
@@ -30,7 +33,7 @@ class Api::V1::TransactionsController < ApplicationController
     @transaction = @current_user.wallet.transactions.new(transaction_params)
 
     if @transaction.save
-      render json: {data: @transaction}, status: :created
+      render json: {data: @transaction}, message: "transaction created", status: :created
     else
       render json: {message: @transaction.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end

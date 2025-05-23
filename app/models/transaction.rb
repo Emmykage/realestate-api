@@ -1,9 +1,9 @@
 class Transaction < ApplicationRecord
   has_one_attached :receipt
   belongs_to :wallet
-  belongs_to :portfolio
+  belongs_to :portfolio, optional: true
   has_one :user, through: :wallet
-  enum :coin_type, {bitcoin: 0, ethereum: 1, usdt: 2, bank: 3}
+  enum :coin_type, {bitcoin: 0, ethereum: 1, usdt: 2, bank: 3, bnb: 4}
   enum :status, {pending: 0, completed: 1, declined: 2}
   enum :transaction_type, {deposit: 0, withdraw: 1}
 
@@ -12,14 +12,12 @@ class Transaction < ApplicationRecord
 
 
   def valid_transaction?
-
     errors.add(:amount, "you have limited funds ") unless amount < wallet.wallet_balance || transaction_type == "deposit"
     true
   end
 
   def receipt_url
     Rails.application.routes.url_helpers.url_for(receipt) if receipt.attached?
-
   end
 
 end

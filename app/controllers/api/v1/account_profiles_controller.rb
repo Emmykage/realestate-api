@@ -3,8 +3,8 @@ class Api::V1::AccountProfilesController < ApplicationController
 
   # GET /account_profiles
   def index
-    @account_profiles = AccountProfile.last
-    render json: { data: AccountProfileSerializer.new(@account_profiles)}
+    @account_profiles = AccountProfile.all
+    render json: { data: ActiveModelSerializers::SerializableResource.new(@account_profiles)}
   end
 
   # GET /account_profiles/1
@@ -35,6 +35,7 @@ class Api::V1::AccountProfilesController < ApplicationController
   # DELETE /account_profiles/1
   def destroy
     @account_profile.destroy
+    render json: {message: "Account deleted"}, status: :ok
   end
 
   private
@@ -45,6 +46,6 @@ class Api::V1::AccountProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def account_profile_params
-      params.require(:account_profile).permit(:bank, :bitcoin, :ethereum, :usdt)
+      params.require(:account_profile).permit(:bank, :bitcoin, :ethereum, :usdt, :name, :account_type, :routing, :address)
     end
 end

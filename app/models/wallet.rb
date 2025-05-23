@@ -11,8 +11,6 @@ class Wallet < ApplicationRecord
 
   def virtual_deposit
       transactions.where(transaction_type: "deposit", status: ["completed", "pending"]).sum(:amount)
-
-
   end
 
 
@@ -42,7 +40,7 @@ class Wallet < ApplicationRecord
 
   end
   def virtual_withdrawal
-      transactions.where(transaction_type: "withdraw", status: "completed").sum(:amount)
+      transactions.where(transaction_type: "withdraw", status: ["completed", "pending"]).sum(:amount)
 
   end
 
