@@ -3,11 +3,15 @@ class Wallet < ApplicationRecord
   has_many :transactions
 
 
-  def deposit
-      transactions.where(transaction_type: "deposit", status: "completed").sum(:amount)
+  # def deposit
+  #     transactions.where(transaction_type: "deposit", status: "completed").sum(&:transaction_total)
+  # end
 
-
+   def deposit
+      transactions.where(transaction_type: "deposit", status: "completed").sum("COALESCE(amount, 0) + COALESCE(bonus, 0)")
   end
+
+
 
   def virtual_deposit
       transactions.where(transaction_type: "deposit", status: ["completed", "pending"]).sum(:amount)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_23_122214) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_01_103934) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -163,6 +163,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_23_122214) do
     t.datetime "updated_at", null: false
     t.integer "transaction_type"
     t.uuid "portfolio_id"
+    t.decimal "bonus"
     t.index ["portfolio_id"], name: "index_transactions_on_portfolio_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
   end

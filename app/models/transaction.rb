@@ -19,6 +19,11 @@ class Transaction < ApplicationRecord
     Rails.application.routes.url_helpers.url_for(receipt) if receipt.attached?
   end
 
+  def transaction_total
+    amount + (bonus || 0)
+  end
+
+
 
   def isWithdraw?
     transaction_type == "withdraw"
