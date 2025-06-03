@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_01_103934) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_02_160933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_01_103934) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "withdrawn", default: false
+    t.boolean "compounded", default: false
     t.index ["portfolio_id"], name: "index_portfolio_interests_on_portfolio_id"
   end
 
@@ -164,6 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_01_103934) do
     t.integer "transaction_type"
     t.uuid "portfolio_id"
     t.decimal "bonus"
+    t.string "routing"
     t.index ["portfolio_id"], name: "index_transactions_on_portfolio_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
   end

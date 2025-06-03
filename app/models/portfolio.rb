@@ -30,13 +30,21 @@ class Portfolio < ApplicationRecord
 
   end
 
-  def portfolio_investment
-    transactions.sum(:amount)
 
+  def cal_portfolio_investment
+    transactions.sum(:amount)
+  end
+
+  def portfolio_investment
+    cal_portfolio_investment + compounded_investment_interest
   end
 
 
   def investment_interest
-      portfolio_interests.sum(:interest)
+    portfolio_interests.where(compounded: false).sum(:interest)
+  end
+
+     def compounded_investment_interest
+      portfolio_interests.where(compounded: true).sum(:interest)
     end
 end

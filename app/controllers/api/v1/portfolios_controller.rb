@@ -1,5 +1,5 @@
 class Api::V1::PortfoliosController < ApplicationController
-  before_action :set_portfolio, only: %i[ show update destroy ]
+  before_action :set_portfolio, only: %i[ show update destroy compound_interest ]
   before_action :authorize
 
   # GET /portfolios
@@ -54,10 +54,22 @@ class Api::V1::PortfoliosController < ApplicationController
   # PATCH/PUT /portfolios/1
   def update
     if @portfolio.update(portfolio_params)
-      render json: @portfolio
+      render json: {data: @portfolio, message: "Portfolio Updated"}, status: :ok
     else
       render json: @portfolio.errors, status: :unprocessable_entity
     end
+  end
+
+  def compound_interest
+
+   if @portfolio.portfolio_interests.update_all(compounded: true)
+     render json: {data: @portfolio, message: "Portfolio interests Compounded"}, status: :ok
+   else
+    render json: {message: @portfolio.errors.full_messages.to_sentence}, status: :ok
+
+   end
+
+
   end
 
   # DELETE /portfolios/1

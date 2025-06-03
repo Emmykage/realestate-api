@@ -15,11 +15,14 @@ class PortfolioInterest < ApplicationRecord
   def generate_interest
 
     if interest.present?
-      self.interest = (interest / 100) * portfolio.portfolio_investment
+      self.interest = (interest / 100) * portfolio.cal_portfolio_investment
     else
       calc_interest
     end
   end
+
+
+
 
 
 

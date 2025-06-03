@@ -17,9 +17,12 @@ Rails.application.routes.draw do
       resources :portfolios do
         collection do
           get :user
+
         end
         member do
           get :investment
+          get :compound_interest
+
 
         end
         resources :portfolio_interests

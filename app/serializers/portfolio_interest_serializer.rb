@@ -1,4 +1,4 @@
 class PortfolioInterestSerializer < ActiveModel::Serializer
-  attributes :id, :interest, :created_at
+  attributes :id, :interest, :compounded, :created_at
   has_one :portfolio
 end
