@@ -14,8 +14,9 @@ class PortfolioInterest < ApplicationRecord
 
   def generate_interest
 
+
     if interest.present?
-      self.interest = (interest / 100) * portfolio.cal_portfolio_investment
+      self.interest = (interest / 100) * portfolio.amount
     else
       calc_interest
     end
@@ -30,9 +31,9 @@ class PortfolioInterest < ApplicationRecord
   private
   def calc_interest
     if  portfolio.portfolio_name == "capital growth"
-      self.interest = portfolio.portfolio_investment * 0.05
+      self.interest = portfolio.amount * 0.05
     elsif portfolio.portfolio_name == "fixed income"
-      self.interest = portfolio.portfolio_investment * 0.03
+      self.interest = portfolio.amount * 0.03
     else
       self.interest = 0.0
     end

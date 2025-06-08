@@ -27,16 +27,37 @@ class Portfolio < ApplicationRecord
 
   def name
     investment.name
-
   end
 
+  def maturity
+    time =  transactions.first&.created_at
+    return false if time.nil?
+    3.months.ago > time
+  end
+
+   def approved_transaction_deposit
+    transactions.where(status: :completed, transaction_type: :deposit).sum(:amount)
+  end
+
+  def all_transaction_deposit
+    transactions.where(status: %i[completed pending], transaction_type: :deposit).sum(:amount)
+  end
 
   def cal_portfolio_investment
     transactions.sum(:amount)
   end
 
+  def total_investment
+   compounded_investment_interest + approved_transaction_deposit - (amount || 0)
+  end
+
+  def virtual_total_investment
+   compounded_investment_interest + all_transaction_deposit - (amount || 0)
+  end
+
+
   def portfolio_investment
-    cal_portfolio_investment + compounded_investment_interest
+    approved_transaction_deposit + compounded_investment_interest - (amount || 0)
   end
 
 

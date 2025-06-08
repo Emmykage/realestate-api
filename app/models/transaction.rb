@@ -10,6 +10,8 @@ class Transaction < ApplicationRecord
 
   validate :valid_transaction?, if: :isWithdraw?
 
+  after_update :add_portfolio_amount, if: :is_status_completed?
+
 
   def valid_transaction?
     errors.add(:amount, "you have limited funds ") if amount > wallet.wallet_balance
@@ -22,6 +24,21 @@ class Transaction < ApplicationRecord
   def transaction_total
     amount + (bonus || 0)
   end
+
+  def is_status_completed?
+    status &&  status == "completed"
+  end
+
+
+  def add_portfolio_amount
+    portfolio_amount = portfolio.approved_transaction_deposit
+
+    portfolio.update(amount: portfolio_amount )
+
+  end
+
+
+
 
 
 

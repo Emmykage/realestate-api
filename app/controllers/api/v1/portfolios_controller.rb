@@ -34,7 +34,7 @@ class Api::V1::PortfoliosController < ApplicationController
     investmentId  = params[:id]
     @current_user.create_portfolios if @current_user.portfolios.blank?
 
-    @portfolio =  @current_user.portfolios.joins(:investment).find_by(investments: {name: investmentId})
+    @portfolio =  @current_user.portfolios.where(status: :active).joins(:investment).find_by(investments: {name: investmentId})
     # @portfolio =  @current_user.portfolios.find_by(name: investmentId)
 
     render json: {data: PortfolioSerializer.new(@portfolio)}, status: :ok
@@ -50,6 +50,24 @@ class Api::V1::PortfoliosController < ApplicationController
       render json: @portfolio.errors, status: :unprocessable_entity
     end
   end
+
+  def re_invest
+   if @portfolio.update(status: :inactive)
+    investment_id =  @portfolio.investment_id
+      portfolio = Portfolio.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name )
+   if @portfolio.save
+      render json: {data: @portfolio}, status: :created
+    else
+      render json: {message: @portfolio.errors.full_messages.to_sentence}, status: :unprocessable_entity
+    end
+
+  else
+     render json: {message: @portfolio.errors.full_messages.to_sentence}, status: :unprocessable_entity
+
+  end
+
+  end
+
 
   # PATCH/PUT /portfolios/1
   def update
