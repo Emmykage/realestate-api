@@ -49,20 +49,15 @@ class Api::V1::UsersController < ApplicationController
     initialize_earning
 
 
-
       if @current_user.authenticate(user_params[:password])
-
         @current_user.create_portfolios  if @current_user.portfolios.blank?
-          token = encode_token({user_id: @current_user.id})
-          render json: {user: @current_user, token: token}, status: :ok
-        else
-          render json: {message: "invalid user or password", message: @current_user.errors}, status: :unprocessable_entity
-
-        end
+        token = encode_token({user_id: @current_user.id})
+        render json: {user: @current_user, token: token}, status: :ok
+      else
+        render json: {message: "Invalid user or password"}, status: :unprocessable_entity
+     end
     else
       render json: {message: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
-
-
     end
   end
 
