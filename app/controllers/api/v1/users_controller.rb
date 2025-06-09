@@ -45,8 +45,8 @@ class Api::V1::UsersController < ApplicationController
   def login
     @current_user = User.find_by(email: user_params[:email].downcase)
     if @current_user
-    initialize_wallet
-    initialize_earning
+      initialize_wallet
+      initialize_earning
 
 
       if @current_user.authenticate(user_params[:password])
