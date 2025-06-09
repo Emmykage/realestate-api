@@ -4,7 +4,7 @@ class PortfolioInterest < ApplicationRecord
 
 
   def generate_interest
-    if portfolio.portfolio_investment > 0
+    if portfolio.approved_transaction_deposit > 0
       calc_interest
     else
       errors.add(:interest, "no investment has been made by client")

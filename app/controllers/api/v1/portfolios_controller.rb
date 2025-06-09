@@ -1,5 +1,5 @@
 class Api::V1::PortfoliosController < ApplicationController
-  before_action :set_portfolio, only: %i[ show update destroy compound_interest ]
+  before_action :set_portfolio, only: %i[ show update destroy re_invest compound_interest ]
   before_action :authorize
 
   # GET /portfolios
@@ -34,9 +34,9 @@ class Api::V1::PortfoliosController < ApplicationController
     investmentId  = params[:id]
     @current_user.create_portfolios if @current_user.portfolios.blank?
 
+    # @portfolio =  @current_user.portfolios.joins(:investment).find_by(investments: {name: investmentId})
     @portfolio =  @current_user.portfolios.where(status: :active).joins(:investment).find_by(investments: {name: investmentId})
     # @portfolio =  @current_user.portfolios.find_by(name: investmentId)
-
     render json: {data: PortfolioSerializer.new(@portfolio)}, status: :ok
   end
 
@@ -52,13 +52,16 @@ class Api::V1::PortfoliosController < ApplicationController
   end
 
   def re_invest
-   if @portfolio.update(status: :inactive)
+
+   if @portfolio.update(status: :inactive , amount: 0.0)
     investment_id =  @portfolio.investment_id
-      portfolio = Portfolio.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name )
-   if @portfolio.save
-      render json: {data: @portfolio}, status: :created
+
+      portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name , amount: @portfolio.amount)
+   if portfolio.save
+      render json: {data: portfolio, message: "re invested"}, status: :created
     else
-      render json: {message: @portfolio.errors.full_messages.to_sentence}, status: :unprocessable_entity
+
+      render json: {message: portfolio.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
 
   else

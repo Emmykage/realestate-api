@@ -24,7 +24,6 @@ class Api::V1::PortfolioInterestsController < ApplicationController
     #   @portfolio_interest = @portfolio.portfolio_interests.new(interest: @portfolio.portfolio_investment * 0.03)
 
     # end
-    # binding.b
 
 
     # @portfolio_interest = PortfolioInterest.new(portfolio_interest_params)

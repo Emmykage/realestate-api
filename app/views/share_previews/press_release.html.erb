@@ -1,0 +1,19 @@
+<!-- app/views/share_previews/press_release.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= @blog.title %></title>
+    <meta property="og:title" content="<%= @blog.title %>" />
+    <meta property="og:description" content="<%= @blog.description %>" />
+    <meta property="og:image" content="<%= @blog.img_url %>" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <p>Redirecting to app...</p>
+    <script>
+      window.location.href = "https://phoenixprecastltd.com/press-release/<%= @blog.id %>";
+    </script>
+  </body>
+</html>

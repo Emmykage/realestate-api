@@ -30,13 +30,17 @@ class User < ApplicationRecord
     end
 
 
-    # def total_earnings
-    #     portfolio_interests.joins(:portfolio).sum(:interest)
+    def total_earnings
+        portfolio_interests.joins(:portfolio).sum(:interest)
+    end
+
+    #    def total_earnings
+    #     portfolio_interests.sum(:interest)
     # end
 
-       def total_earnings
-        portfolio_interests.sum(:interest)
-    end
+    #     def total_earnings
+    #    portfolios.where(status: :active).joins(:portfolio_interests).sum("portfolio_interests.interest")
+    #     end
 
 
     def initialize_wallet

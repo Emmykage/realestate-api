@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         member do
           get :investment
           get :compound_interest
+          get :re_invest
 
 
         end
@@ -46,6 +47,8 @@ Rails.application.routes.draw do
           post :forgot_password
         end
       end
+      get '/preview/press-release/:id', to: 'share_previews#press_release'
+
 
       get 'portfolios_user/:id', to: "portfolios#portfolio_index"
       # get 'reset_password', to: 'users#reset_password', as: :password_reset_path
@@ -55,6 +58,9 @@ Rails.application.routes.draw do
 
 
   end
+
+ get '/preview/press-release/:id', to: 'share_previews#press_release'
+
 
   get 'confirm_email', to: 'registration#confirm_email'
   get 'reset_password', to: 'password#reset_password'

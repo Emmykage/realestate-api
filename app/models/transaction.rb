@@ -32,9 +32,7 @@ class Transaction < ApplicationRecord
 
   def add_portfolio_amount
     portfolio_amount = portfolio.approved_transaction_deposit
-
     portfolio.update(amount: portfolio_amount )
-
   end
 
 

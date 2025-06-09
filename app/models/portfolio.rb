@@ -8,6 +8,8 @@ class Portfolio < ApplicationRecord
 
   enum :status, {active: 0, inactive: 1}
 
+  default_scope {order(created_at: :desc )}
+
   # before_create :valid_transaction?
 
 
@@ -48,7 +50,7 @@ class Portfolio < ApplicationRecord
   end
 
   def total_investment
-   compounded_investment_interest + approved_transaction_deposit - (amount || 0)
+   compounded_investment_interest
   end
 
   def virtual_total_investment
