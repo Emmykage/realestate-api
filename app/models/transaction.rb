@@ -11,7 +11,11 @@ class Transaction < ApplicationRecord
   validate :valid_transaction?, if: :isWithdraw?
 
   after_update :add_portfolio_amount, if: :is_status_completed?
+  after_update :confirm_transaction_mail
 
+  def confirm_transaction_mail
+    TransactionMailer.confirm_transaction(user, self).deliver_now
+  end
 
   def valid_transaction?
     errors.add(:amount, "you have limited funds ") if amount > wallet.wallet_balance

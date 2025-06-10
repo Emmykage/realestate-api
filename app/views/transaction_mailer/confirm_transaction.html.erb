@@ -1,0 +1,65 @@
+<h1>Confirm Transaction</h1>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .header {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .details {
+            margin-top: 15px;
+        }
+
+        .footer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <p class="header">Hello <%= @user.first_name %>,</p>
+
+        <p>Your transaction has been successfully Confirmed on <strong>Phoenix Precast</strong>.</p>
+
+        <div class="details">
+            <p><strong>Transaction ID:</strong> <%= @transaction.id %></p>
+            <p><strong>Transaction Type:</strong> <%= @transaction.transaction_type %></p>
+            <p><strong>Amount:</strong> GBP<%= @transaction.amount %></p>
+            <p><strong>Status:</strong> <%= @transaction.status.capitalize %></p>
+            <p><strong>Date:</strong> <%= @transaction.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+        </div>
+
+        <p>If you did not initiate this transaction, please contact our support immediately.</p>
+
+        <p>Thank you for using Phoenix Global.</p>
+
+        <div class="footer">
+            &copy; <%= Date.current.year %> Phoenix Global. All rights reserved.
+        </div>
+    </div>
+</body>
+
+</html>

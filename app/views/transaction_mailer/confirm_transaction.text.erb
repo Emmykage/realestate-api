@@ -1,0 +1,15 @@
+Hello <%= @user.first_name %>,
+
+Your transaction has been successfully confirmed on Phoenix Precast
+
+Transaction Details:
+- Transaction ID: <%= @transaction.id %>
+- Amount: $<%= @transaction.amount %>
+- Status: <%= @transaction.status.capitalize %>
+- Date: <%= @transaction.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+
+If you did not initiate this transaction, please contact our support immediately.
+
+Thank you for using BitBridge Global.
+
+© <%= Date.current.year %> BitBridge Global. All rights reserved.

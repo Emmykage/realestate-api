@@ -33,6 +33,7 @@ class Api::V1::TransactionsController < ApplicationController
     @transaction = @current_user.wallet.transactions.new(transaction_params)
 
     if @transaction.save
+      TransactionMailer.send_notification(@current_user, @transaction).deliver_now
       render json: {data: @transaction}, message: "transaction created", status: :created
     else
       render json: {message: @transaction.errors.full_messages.to_sentence}, status: :unprocessable_entity

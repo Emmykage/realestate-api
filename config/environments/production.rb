@@ -9,15 +9,15 @@ Rails.application.configure do
   # Email deliver set up
 
   config.action_mailer.delivery_method = :smtp
-  host = 'phoenix-estate.netlify.app' #replace with your own url
+  host = 'phoenixprecastltd.com' #replace with your own url
   config.action_mailer.default_url_options = { host: host }
 
   # SMTP settings for gmail
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.gmail.com",
+    :address              => "smtp.hostinger.com",
     :port                 => 587,
-    :user_name            => "emmiemenz@gmail.com",
-    :password             => "Chemistry-101",
+    :user_name            => "support@phoenixprecastltd.com",
+    :password             => "@Supportphoenixprecast123",
     :authentication       => "plain",
     :enable_starttls_auto => true
   }
