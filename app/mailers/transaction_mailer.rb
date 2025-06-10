@@ -6,8 +6,9 @@ class TransactionMailer < ApplicationMailer
   #   en.transaction_mailer.send_notification.subject
   #
   def send_notification(user, transaction)
-    @greeting = "Hi"
     @user = user
+    attachments.inline['logo.jpg'] = File.read(Rails.root.join('app/assets/images/logo.jpg'))
+
     @transaction = transaction
 
     mail(to: user.email,

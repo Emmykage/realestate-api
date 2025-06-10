@@ -42,7 +42,9 @@
     <div class="container">
         <p class="header">Hello <%= @user.first_name %>,</p>
 
-        <p>Your transaction has been successfully verified on <strong>Phoenix Estate</strong>.</p>
+        <p>Your transaction has been successfully initiated on <strong>Phoenix Precast</strong>.</p>
+
+        <%= image_tag attachments["logo.jpg"].url, class: "logo", style:"height: 20px; display: block;",  alt: "Company Logo"  %>
 
         <div class="details">
             <p><strong>Transaction ID:</strong> <%= @transaction.id %></p>
@@ -54,10 +56,10 @@
 
         <p>If you did not initiate this transaction, please contact our support immediately.</p>
 
-        <p>Thank you for using BitBridge Global.</p>
+        <p>Thank you for using Phoenix Precast.</p>
 
         <div class="footer">
-            &copy; <%= Date.current.year %> Phoenix Global. All rights reserved.
+            &copy; <%= Date.current.year %> Phoenix Precast. All rights reserved.
         </div>
     </div>
 </body>
