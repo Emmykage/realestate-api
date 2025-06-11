@@ -1,7 +1,7 @@
 class Wallet < ApplicationRecord
   belongs_to :user
   has_many :portfolios, through: :user
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 
 
   # def deposit
