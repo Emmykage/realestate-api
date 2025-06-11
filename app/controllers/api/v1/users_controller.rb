@@ -53,7 +53,7 @@ class Api::V1::UsersController < ApplicationController
         render json: {message: "Invalid user or password"}, status: :unprocessable_entity
      end
     else
-      render json: {message: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
+      render json: {message: "user does not exist"}, status: :unprocessable_entity
     end
   end
 
