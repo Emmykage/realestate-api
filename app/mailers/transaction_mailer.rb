@@ -9,7 +9,7 @@ class TransactionMailer < ApplicationMailer
     @transaction = transaction
 
     mail(to: [user.email, default_to],
-    from: "no-reply@phoenixprecastltd.com"
+    from: "no-reply@phoenixprecastltd.com",
     subject: "Transaction Initialized - Phoenix Precast"
     )
   end
@@ -19,7 +19,7 @@ class TransactionMailer < ApplicationMailer
     @transaction = transaction
 
     mail(to: [user.email, default_to],
-    from: "no-reply@phoenixprecastltd.com"
+    from: "no-reply@phoenixprecastltd.com",
      subject: "Transaction Confirmation - Phoenix Precast"
     )
   end
