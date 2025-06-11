@@ -1,7 +1,5 @@
 class TransactionMailer < ApplicationMailer
   default_to = "support@phoenixprecastltd.com"
-  default from: "no-reply@phoenixprecastltd.com"
-
   def send_notification(user, transaction)
     @user = user
     attachments.inline['logo.jpg'] = File.read(Rails.root.join('app/assets/images/logo.jpg'))
