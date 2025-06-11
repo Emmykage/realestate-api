@@ -1,9 +1,9 @@
 class User < ApplicationRecord
     has_secure_password
-    has_one :wallet
-    has_one :earning
-    has_one :profile
-    has_many :portfolios
+    has_one :wallet, dependent: :destroy
+    has_one :earning, dependent: :destroy
+    has_one :profile, dependent: :destroy
+    has_many :portfolios, dependent: :destroy
     has_many :blogs, dependent: :destroy
     has_many :earning_transactions, through: :earning
     has_many :portfolio_interests, through: :portfolios
