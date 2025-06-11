@@ -13,7 +13,6 @@ class User < ApplicationRecord
     before_create :generate_confirmation_token
 
     accepts_nested_attributes_for :profile, allow_destroy: true
-    # after_create :send_confirmation_email
     after_create :create_portfolios
     after_create :initialize_wallet
     after_create :send_confirmation_email
@@ -100,18 +99,10 @@ class User < ApplicationRecord
 
     end
 
-    # def send_confirmation_email
-    #     SendConfirmationInstructionJob.perform_now(self)
-    #     # SendConfirmationInstructionJob
-
-    # end
-
-
-
-
     def send_confirmation_email
         UserMailer.confirmation_email(self).deliver_now
     end
+
     def password_required?
     new_record? || password.present?
     end

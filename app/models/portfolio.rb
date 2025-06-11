@@ -1,7 +1,7 @@
 class Portfolio < ApplicationRecord
   belongs_to :user
-  has_many :portfolio_interests
-  has_many :transactions
+  has_many :portfolio_interests, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
 
   belongs_to :investment
