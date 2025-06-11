@@ -5,7 +5,9 @@ class UserMailer < ApplicationMailer
         @confirmation_url = confirmation_url(@user.confirmation_token, @user.email)
         @url = 'http://phoenix-realestate.com/login'
         attachments.inline['logo.jpg'] = File.read(Rails.root.join('app/assets/images/logo.jpg'))
-        mail(to: @user.email, subject: "Confirmation Email")
+        mail(to: @user.email,
+        form: "no-reply@phoenixprecastltd.com"
+        subject: "Confirmation Email")
 
     end
 
