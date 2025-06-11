@@ -28,10 +28,6 @@ class Api::V1::UsersController < ApplicationController
       # UserMailer.with(user: @user).confirmation_email.deliver_later
 
       token = encode_token({user_id: @current_user.id})
-      # initialize_wallet
-      # initialize_earning
-
-
       render json: {data: @current_user, token: token},  status: :created
 
     else
@@ -59,6 +55,35 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: {message: "user does not exist", message: "user does not exist"}, status: :unprocessable_entity
     end
+  end
+
+    def confirm_account
+
+     current_user = User.find_by(email: params[:email]&.downcase)
+
+  # Return immediately if user not found
+    unless current_user
+     render json: { message: "User not found" }, status: :not_found
+    end
+
+  # Check if already confirmed
+    if current_user.confirmed_at.present?
+     render json: { message: "Account already confirmed" }, status: :unprocessable_entity
+    end
+
+  # Verify token
+  unless current_user.confirmation_token.present? &&
+         current_user.confirmation_token == params[:token]
+     render json: { message: "Invalid confirmation token" }, status: :unprocessable_entity
+  end
+
+  if current_user.update(confirmed_at: Time.now, confirmation_token: nil)
+        token = encode_token({user_id: current_user.id})
+          render json: {user: current_user, token: token, message: "account confirmed"}, status: :ok
+        else
+          render json: {message: current_user.errors.full_messages.to_sentence}, status: :unprocessable_entity
+      end
+
   end
 
 

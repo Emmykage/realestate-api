@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resources :assets
       resources :users do
         collection do
+          get :confirm_account
           post :login
           get :account
           patch :update_account

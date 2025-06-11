@@ -2,7 +2,7 @@ class UserMailer < ApplicationMailer
     def confirmation_email(user)
         @user = user
         @confirmation_token = @user.confirmation_token
-        @confirmation_url = confirmation_url(@user.confirmation_token)
+        @confirmation_url = confirmation_url(@user.confirmation_token, @user.email)
         @url = 'http://phoenix-realestate.com/login'
         attachments.inline['logo.jpg'] = File.read(Rails.root.join('app/assets/images/logo.jpg'))
         mail(to: @user.email, subject: "Confirmation Email")
@@ -17,11 +17,11 @@ class UserMailer < ApplicationMailer
 
     private
 
-    def confirmation_url(confirmation_token)
-        "#{Rails.application.config.action_mailer.default_url_options[:host]}/confirm_email?confirmation_token=#{confirmation_token}"
+    def confirmation_url(confirmation_token, email)
+        "#{Rails.application.config.action_mailer.default_url_options[:host]}/auth/confiirm-account?token=#{confirmation_token}&email=#{email}"
     end
 
     def reset_password_url(reset_password_token)
-        "#{Rails.application.config.action_mailer.default_url_options[:host]}/reset_password?password_token=#{reset_password_token}"
+        "#{Rails.application.config.action_mailer.default_url_options[:host]}/auth/reset_password?password_token=#{reset_password_token}"
     end
 end

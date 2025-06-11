@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
     validates :email, :first_name, :last_name, presence: true
     validates :email, uniqueness: { case_sensitive: false }
-    validates :password, length: { in: 6..20 } #, on: :create
+    validates :password, length: { in: 6..20 }, if: :password_required?
     validates :email, uniqueness: true, format: { with: /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+\z/i, message: ":Please enter a valid email address."}
 
     def total_asset
@@ -112,6 +112,8 @@ class User < ApplicationRecord
     def send_confirmation_email
         UserMailer.confirmation_email(self).deliver_now
     end
-
+    def password_required?
+    new_record? || password.present?
+    end
 
 end
