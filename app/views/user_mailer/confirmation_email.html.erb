@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>Welcome to PhoenixHomes, <%= @user.first_name %></h1>
+    <%= image_tag attachments["logo.jpg"].url, class: "logo", style:"height: 20px; display: block;",  alt: "Company Logo"  %>
+
     <p>
-      You have successfully signed up to melisports.com,
-      your email is: <%= @user.email %>.<br>
+        You have successfully signed up to phoenixprecastltd.com,
+        your email is: <%= @user.email %>.<br>
     </p>
     <p>
-      To login to the site, just follow this link <a target="_blank" href="<%= @confirmation_url %>" >cornfirm</a>
+        To login to the site, just follow this link <a target="_blank" href="<%= @confirmation_url %>">cornfirm</a>
     </p>
     <p><%= @confirmation_url %></p>
     <p>Thanks for joining and have a great day!</p>
-  </body>
+</body>
+
 </html>

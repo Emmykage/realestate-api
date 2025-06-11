@@ -1,18 +1,16 @@
 class TransactionMailer < ApplicationMailer
+  default_to = "support@phoenixprecastltd.com"
+  default from: "no-reply@phoenixprecastltd.com"
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.transaction_mailer.send_notification.subject
-  #
   def send_notification(user, transaction)
     @user = user
     attachments.inline['logo.jpg'] = File.read(Rails.root.join('app/assets/images/logo.jpg'))
 
     @transaction = transaction
 
-    mail(to: user.email,
-     subject: "Transaction Initialized - BitBridge Global"
+    mail(to: [user.email, default_to],
+    from: "no-reply@phoenixprecastltd.com"
+    subject: "Transaction Initialized - Phoenix Precast"
     )
   end
 
@@ -20,13 +18,9 @@ class TransactionMailer < ApplicationMailer
     @user = user
     @transaction = transaction
 
-
-
-    binding.b
-
-
     mail(to: [user.email, default_to],
-     subject: "Transaction Confirmation - BitBridge Global"
+    from: "no-reply@phoenixprecastltd.com"
+     subject: "Transaction Confirmation - Phoenix Precast"
     )
   end
 end

@@ -61,21 +61,12 @@ Rails.application.configure do
 
 
 
-  config.action_mailer.delivery_method = :smtp
   host = 'localhost:3000' #replace with your own url
-  config.action_mailer.default_url_options = { host: 'localhost:3000', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
 
-  # SMTP settings for gmail
-  config.action_mailer.smtp_sett ings = {
-    :address              => "smtp.gmail.com",
-    :port                 => 587,
-    :user_name            => "emmiemenz@gmail.com",
-    :password             => "Chemistry-101",
-    :authentication       => "plain",
-    :enable_starttls_auto => true
-  }
+
   # config.active_job.queue_adapter = :sidekiq
 
   # Raises error for missing translations.

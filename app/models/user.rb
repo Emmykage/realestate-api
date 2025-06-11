@@ -16,6 +16,7 @@ class User < ApplicationRecord
     # after_create :send_confirmation_email
     after_create :create_portfolios
     after_create :initialize_wallet
+    after_create :send_confirmation_email
 
 
     enum :role, {client: 0, admin: 1}
@@ -99,12 +100,18 @@ class User < ApplicationRecord
 
     end
 
+    # def send_confirmation_email
+    #     SendConfirmationInstructionJob.perform_now(self)
+    #     # SendConfirmationInstructionJob
+
+    # end
+
+
+
+
     def send_confirmation_email
-        SendConfirmationInstructionJob.perform_now(self)
-        # SendConfirmationInstructionJob
-
+        UserMailer.confirmation_email(self).deliver_now
     end
-
 
 
 end
