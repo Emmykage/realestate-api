@@ -6,7 +6,6 @@ class UserMailer < ApplicationMailer
         @url = 'http://phoenix-realestate.com/login'
         attachments.inline['logo.jpg'] = File.read(Rails.root.join('app/assets/images/logo.jpg'))
         mail(to: @user.email,
-        form: "no-reply@phoenixprecastltd.com",
         subject: "Confirmation Email")
 
     end
@@ -16,6 +15,9 @@ class UserMailer < ApplicationMailer
         @reset_password_url = reset_password_url(user.reset_password_token)
         mail(to: @user.email, subject: "Reset Password Instructions")
     end
+
+
+
 
     private
 

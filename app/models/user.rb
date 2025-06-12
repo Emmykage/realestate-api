@@ -1,5 +1,7 @@
 class User < ApplicationRecord
     has_secure_password
+    attr_accessor :confirm_password
+
     has_one :wallet, dependent: :destroy
     has_one :earning, dependent: :destroy
     has_one :profile, dependent: :destroy
@@ -82,6 +84,7 @@ class User < ApplicationRecord
     def generate_reset_password_token
         self.reset_password_token = SecureRandom.hex(10)
         self.reset_password_sent_at = Time.current
+        save
 
     end
     def email_confirmation

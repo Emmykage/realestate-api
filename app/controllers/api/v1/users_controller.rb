@@ -89,14 +89,65 @@ class Api::V1::UsersController < ApplicationController
 
   def forgot_password
     user = User.find_by(email: params[:email])
-    if user
-      user.generate_reset_password_token
-      UserMailer.password_reset_instructions(user).deliver_now
+
+    unless user
+     return render json: {message: "user doesn't exist"}, status: :not_found
+    end
+    if user.update(reset_password_token: generate_token, reset_password_sent_at: time_stamp)
+      UserMailer.password_reset(user).deliver_now
       render json: {message: "Reset password Instructions sent. Please check your mail box"}
     else
-      render json: {errors: "user not found with the email"}, status: :unprocessable_entity
+      render json: {message: "Failed to generate reset token"}, status: :unprocessable_entity
     end
   end
+
+   def confirm_token
+    user = User.find_by(email: params[:email])
+
+     unless user
+     return render json: {message: "user doesn't exist"}, status: :not_found
+    end
+
+    if user.reset_password_token == user_params[:password] && user&.reset_password_sent_at > 1.hour.ago
+      render json: {message: "Varified"}, status: :ok
+    else
+
+      render json: {message: "invalid or expired password token"}, status: :unprocessable_entity
+    end
+  end
+
+
+   def new_password
+    user = User.find_by(email: user_params[:email])
+
+     unless user
+      return render json: {message: "user doesn't exist"}, status: :not_found
+      end
+
+      unless user_params[:password] == user_params[:confirm_password]
+        return render json: {message: "passwords  doesn't match"}, status: :unprocessable_entity
+      end
+
+
+    if  user&.reset_password_sent_at > 1.hour.ago && user.reset_password_token.present?
+      if user.update(password: user_params[:password], reset_password_token: nil)
+        render json: {message: "Password Reset successful"}, status: :ok
+      else
+          render json: {message: "invalid or expired password token"}, status: :unprocessable_entity
+        end
+    else
+      render json: {message: "expired password token or reset token already  used"}, status: :unprocessable_entity
+    end
+  end
+
+  #   def reset_forgotten_password
+  #   user  = User.find_by(reset_password_token: params[:reset_password_token])
+  #   if user && user.reset_password_sent_at > 1.hour.ago
+  #     user.update(password: params[:password], reset_password_token: nil, reset_password_sent_at: nil)
+  #   else
+  #     render json: {errors: "invalid or expired password token"}, status: :unprocessable_entity
+  #   end
+  # end
 
   def reset_password
     user  = User.find_by(reset_password_token: params[:reset_password_token])
@@ -136,8 +187,16 @@ class Api::V1::UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def generate_token
+       SecureRandom.hex(6)
+    end
+
+   def time_stamp
+       Time.current
+    end
+
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_no, :role, :password, profile_attributes: %i[investment_purpose investment_property initial_investment investor_type])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_no, :role, :password, :confirm_password, profile_attributes: %i[investment_purpose investment_property initial_investment investor_type])
     end
 end

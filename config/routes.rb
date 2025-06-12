@@ -39,7 +39,9 @@ Rails.application.routes.draw do
           post :login
           get :account
           patch :update_account
-          post :forgot_password
+          get :forgot_password
+          post :confirm_token
+          post :new_password
 
         end
       end
