@@ -70,4 +70,11 @@ class Wallet < ApplicationRecord
     (user.total_earnings - user.net_earnings + virtual_deposit) - (virtual_withdrawal + user.total_asset)
     end
 
+
+    def total_investment
+
+      portfolios.sum(:amount)
+    end
+
+
 end
