@@ -30,7 +30,7 @@ class Transaction < ApplicationRecord
   end
 
   def is_status_completed?
-    status &&  status == "completed"
+    status &&  status == "completed" && transaction_type == "deposit"
   end
 
 
