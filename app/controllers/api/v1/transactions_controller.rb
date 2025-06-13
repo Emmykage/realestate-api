@@ -43,9 +43,9 @@ class Api::V1::TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1
   def update
     if @transaction.update(transaction_params)
-      render json: @transaction
+      render json: {data: @transaction, message: "update successfull"}, status: :ok
     else
-      render json: @transaction.errors, status: :unprocessable_entity
+      render json: {messsage: @transaction.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
   end
 

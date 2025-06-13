@@ -8,7 +8,7 @@ class Transaction < ApplicationRecord
   enum :transaction_type, {deposit: 0, withdraw: 1}
 
 
-  validate :valid_transaction?, if: :isWithdraw?
+  validate :valid_transaction?, if: :isWithdraw?, on: :create
 
   after_update :add_portfolio_amount, if: :is_status_completed?
   after_update :confirm_transaction_mail
@@ -18,7 +18,7 @@ class Transaction < ApplicationRecord
   end
 
   def valid_transaction?
-    errors.add(:amount, "you have limited funds ") if amount > wallet.wallet_balance
+    errors.add(:amount, "you have limited funds ") if amount > wallet.virtual_balance
   end
 
   def receipt_url

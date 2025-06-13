@@ -61,13 +61,14 @@ class Wallet < ApplicationRecord
   # end
 
   def wallet_balance
-    portfolios.sum(&:total_investment) + deactivated
+    portfolios.sum(&:total_investment) + deactivated - withdrawal
   end
 
 
 
     def virtual_balance
-    (user.total_earnings - user.net_earnings + virtual_deposit) - (virtual_withdrawal + user.total_asset)
+     portfolios.sum(&:total_investment) + deactivated - (virtual_withdrawal)
+    #  virtual_withdrawal
     end
 
 
