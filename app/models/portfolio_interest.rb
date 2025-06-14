@@ -14,7 +14,8 @@ class PortfolioInterest < ApplicationRecord
 
   def generate_interest
 
-
+    #u either want generate percentage on amount or accoummuated percentage on capital graowth
+    # portfolio.amount || portfolio.portfolio_value
     if interest.present?
       self.interest = (interest / 100) * portfolio.amount
     else

@@ -57,10 +57,19 @@ class Portfolio < ApplicationRecord
    compounded_investment_interest + all_transaction_deposit - (amount || 0)
   end
 
-
-  def portfolio_investment
-    approved_transaction_deposit + compounded_investment_interest - (amount || 0)
+  def portfolio_value
+    if portfolio_name == "fixed income"
+      amount
+      else
+        (amount || 0) + compounded_investment_interest
+    end
   end
+
+
+
+  # def portfolio_investment
+  #   approved_transaction_deposit + compounded_investment_interest - (amount || 0)
+  # end
 
 
   def investment_interest
