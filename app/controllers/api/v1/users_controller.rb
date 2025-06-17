@@ -88,7 +88,7 @@ class Api::V1::UsersController < ApplicationController
 
 
   def forgot_password
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email].downcase)
 
     unless user
      return render json: {message: "user doesn't exist"}, status: :not_found
@@ -102,7 +102,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
    def confirm_token
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email].downcase)
 
      unless user
      return render json: {message: "user doesn't exist"}, status: :not_found
@@ -118,7 +118,7 @@ class Api::V1::UsersController < ApplicationController
 
 
    def new_password
-    user = User.find_by(email: user_params[:email])
+    user = User.find_by(email: user_params[:email].downcase)
 
      unless user
       return render json: {message: "user doesn't exist"}, status: :not_found

@@ -18,7 +18,7 @@ class User < ApplicationRecord
     after_create :create_portfolios
     after_create :initialize_wallet
     after_create :send_confirmation_email
-
+    before_validation :downcase_fields
 
     enum :role, {client: 0, admin: 1}
 
@@ -29,6 +29,10 @@ class User < ApplicationRecord
 
     def total_asset
         0.0
+    end
+
+    def downcase_fields
+    self.email = email.downcase if email.present?
     end
 
 
