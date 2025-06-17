@@ -7,6 +7,8 @@ class Transaction < ApplicationRecord
   enum :status, {pending: 0, completed: 1, declined: 2}
   enum :transaction_type, {deposit: 0, withdraw: 1}
 
+  default_scope { order(created_at: :desc) }
+
 
   validate :valid_transaction?, if: :isWithdraw?, on: :create
 
