@@ -53,10 +53,17 @@ class Api::V1::PortfoliosController < ApplicationController
 
   def re_invest
 
+    prev_amount = @portfolio.amount
+
+    unless  @portfolio.matured
+      return render json: {message: "portfolio not yet matured"}, status: :unprocessable_entity
+    end
+
    if @portfolio.update(status: :inactive , amount: 0.0)
     investment_id =  @portfolio.investment_id
 
-      portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name , amount: @portfolio.amount)
+      portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name , amount: prev_amount)
+
    if portfolio.save
       render json: {data: portfolio, message: "re invested"}, status: :created
     else
@@ -106,6 +113,6 @@ class Api::V1::PortfoliosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def portfolio_params
-      params.require(:portfolio).permit(:amount, :paid, :portfolio_name)
+      params.require(:portfolio).permit(:amount, :paid, :matured, :portfolio_name)
     end
 end
