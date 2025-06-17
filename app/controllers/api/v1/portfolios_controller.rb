@@ -60,8 +60,7 @@ class Api::V1::PortfoliosController < ApplicationController
     end
 
    if @portfolio.update(status: :inactive , amount: 0.0)
-    investment_id =  @portfolio.investment_id
-
+      investment_id =  @portfolio.investment_id
       portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name , amount: prev_amount)
 
    if portfolio.save
