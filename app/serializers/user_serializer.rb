@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :admin, :first_name, :last_name, :email, :phone_no, :role, :total_asset, :total_earnings, :net_earnings,  :confirmed?
+  attributes :id, :admin, :first_name, :last_name, :email, :phone_no, :role, :total_asset, :total_earnings, :net_earnings,  :confirmed?, :total_investment
   has_many :portfolios
   has_one :wallet
   has_one :earning

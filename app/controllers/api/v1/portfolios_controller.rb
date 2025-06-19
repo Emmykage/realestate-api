@@ -53,15 +53,23 @@ class Api::V1::PortfoliosController < ApplicationController
 
   def re_invest
 
-    prev_amount = @portfolio.amount
+   prev_amount = @portfolio.amount
+   comulative_amount = @portfolio.comulated_return
+
+   if comulative_amount > @portfolio.wallet.virtual_balance
+      return render json: {message: "you have insufficient funds"}, status: :unprocessable_entity
+    end
+
+   portfolio_name = @portfolio.portfolio_name || @portfolio.name
+
 
     unless  @portfolio.matured
       return render json: {message: "portfolio not yet matured"}, status: :unprocessable_entity
     end
 
-   if @portfolio.update(status: :inactive , amount: 0.0)
+   if @portfolio.update(status: :inactive)
       investment_id =  @portfolio.investment_id
-      portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: @portfolio.portfolio_name , amount: prev_amount)
+      portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: portfolio_name , amount: prev_amount + comulative_amount, comulative_amount: comulative_amount, re_invest: true)
 
    if portfolio.save
       render json: {data: portfolio, message: "re invested"}, status: :created

@@ -12,7 +12,7 @@ class Transaction < ApplicationRecord
 
   validate :valid_transaction?, if: :isWithdraw?, on: :create
 
-  after_update :add_portfolio_amount, if: :is_status_completed?
+  before_update :add_portfolio_amount, if: :is_status_completed?
   after_update :confirm_transaction_mail
 
   def confirm_transaction_mail
@@ -37,7 +37,12 @@ class Transaction < ApplicationRecord
 
 
   def add_portfolio_amount
-    portfolio_amount = portfolio.approved_transaction_deposit
+
+    total_deposit = portfolio.approved_transaction_deposit
+
+    prev_amount = portfolio.amount || 0.0
+    portfolio_amount = total_deposit == 0.0 ? prev_amount + amount : total_deposit + portfolio.amount
+
     portfolio.update(amount: portfolio_amount )
   end
 

@@ -80,7 +80,6 @@ class User < ApplicationRecord
 
      def total_investment
             wallet&.calculated_investment || 0.0
-            # 0.0
       end
 
 

@@ -1,30 +1,23 @@
 class Portfolio < ApplicationRecord
+  attr_accessor :re_invest, :comulative_amount
   belongs_to :user
   has_many :portfolio_interests, dependent: :destroy
   has_many :transactions, dependent: :destroy
 
 
   belongs_to :investment
+  has_one :wallet, through: :user
 
   enum :status, {active: 0, inactive: 1}
+  # enum :portfolio_name, {"capital growth" => 0, "fixed income" => 1}
+  # validate :valid_transaction, if: :re_investing?
 
   default_scope {order(created_at: :desc )}
 
-  # before_create :valid_transaction?
 
-
-  # def valid_transaction?
-  #   raise ActiveRecord::RecordNotSaved, "You have limited funds in your wallet"  unless amount < user.wallet.wallet_balance
-  #   true
-  # end
-
-
-
-  def valid_transaction?
-    if amount > user.wallet.wallet_balance
-      errors.add(:amount, "insufficient balance" )
+    def valid_transaction
+      errors.add(:amount, "you have limited funds ") if comulative_amount > (wallet.virtual_balance)
     end
-  end
 
 
   def name
@@ -50,6 +43,10 @@ class Portfolio < ApplicationRecord
   end
 
   def total_investment
+   compounded_investment_interest
+  end
+
+  def comulated_return
    compounded_investment_interest
   end
 
@@ -79,4 +76,13 @@ class Portfolio < ApplicationRecord
      def compounded_investment_interest
       portfolio_interests.where(compounded: true).sum(:interest)
     end
+
+
+    def re_investing?
+      re_invest.present? && re_invest == true
+
+    end
+    private
+
+
 end

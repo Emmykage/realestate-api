@@ -24,12 +24,14 @@ class Wallet < ApplicationRecord
 
   end
   def fixed_income
-    transactions.joins(:portfolio).where(portfolios: {portfolio_name: "fixed income"}).sum(:amount)
+   portfolios.where(portfolio_name: "fixed income").sum(:amount)
 
   end
 
+
+
   def calculated_investment
-    fixed_income + capital_growth
+    portfolios.where(status: :active).sum(:amount)
 
   end
 
@@ -55,21 +57,31 @@ class Wallet < ApplicationRecord
 
   end
 
+    def activated
+    portfolios.where(status: :active).sum(:amount)
+
+  end
+
 
   # def wallet_balance
   #   (user.total_earnings - user.net_earnings + deposit) - (withdrawal + user.total_asset)
   # end
 
   def wallet_balance
-    portfolios.where(portfolio_name: "fixed income").sum(&:total_investment) + deactivated - withdrawal
+    # portfolios.where(portfolio_name: "fixed income", status: :active).sum(&:comulated_return) + deactivated - withdrawal
+    portfolios.where(portfolio_name: "fixed income", status: :active).sum(&:comulated_return)  + deactivated - withdrawal
   end
 
 
 
     def virtual_balance
-     portfolios.where(portfolio_name: "fixed income").sum(&:total_investment) + deactivated - (virtual_withdrawal)
-    #  virtual_withdrawal
+        portfolios.where(portfolio_name: "fixed income", status: :active).sum(&:comulated_return) + deactivated - (virtual_withdrawal)
     end
+
+    def virtual_comulative_balance
+      portfolios.where(portfolio_name: "fixed income", status: :active).sum(&:comulated_return)
+    end
+
 
 
     def total_investment
