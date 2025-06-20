@@ -1,5 +1,5 @@
 class Api::V1::PortfoliosController < ApplicationController
-  before_action :set_portfolio, only: %i[ show update destroy re_invest compound_interest ]
+  before_action :set_portfolio, only: %i[ show update re_create destroy re_invest compound_interest ]
   before_action :authorize
 
   # GET /portfolios
@@ -41,14 +41,32 @@ class Api::V1::PortfoliosController < ApplicationController
   end
 
   # POST /portfolios
-  def create
-    @portfolio = @current_user.portfolios.new(portfolio_params)
+  def re_create
 
-    if @portfolio.save
-      render json: @portfolio, status: :created
-    else
-      render json: @portfolio.errors, status: :unprocessable_entity
+   portfolio_name = @portfolio.portfolio_name || @portfolio.name
+   investment_id =  @portfolio.investment_id
+
+
+     unless  @portfolio.matured
+      return render json: {message: "portfolio not yet matured"}, status: :unprocessable_entity
     end
+
+
+
+   if @portfolio.update(status: :withdrawn)
+      portfolio = @current_user.portfolios.create(investment_id: investment_id, portfolio_name: portfolio_name , amount: 0)
+
+      if portfolio.save
+          render json: {data: portfolio, message: "Portfolio has been created"}, status: :created
+        else
+
+          render json: {message: portfolio.errors.full_messages.to_sentence}, status: :unprocessable_entity
+       end
+
+      else
+        render json: {message: @portfolio.errors.full_messages.to_sentence}, status: :unprocessable_entity
+
+      end
   end
 
   def re_invest

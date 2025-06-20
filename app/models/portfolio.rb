@@ -8,7 +8,7 @@ class Portfolio < ApplicationRecord
   belongs_to :investment
   has_one :wallet, through: :user
 
-  enum :status, {active: 0, inactive: 1}
+  enum :status, {active: 0, inactive: 1, withdrawn: 2, matured: 3}
   # enum :portfolio_name, {"capital growth" => 0, "fixed income" => 1}
   # validate :valid_transaction, if: :re_investing?
 

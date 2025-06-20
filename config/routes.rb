@@ -23,6 +23,7 @@ Rails.application.routes.draw do
           get :investment
           get :compound_interest
           get :re_invest
+          get :re_create
 
 
         end
