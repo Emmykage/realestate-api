@@ -14,7 +14,6 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   def user
-
     @transactions = @current_user.transactions
     @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
     @transactions = @transactions.where(coin_type: params[:coin_type]) if params[:coin_type].present?

@@ -56,9 +56,9 @@ class Api::V1::PortfoliosController < ApplicationController
    prev_amount = @portfolio.amount
    comulative_amount = @portfolio.comulated_return
 
-   if comulative_amount > @portfolio.wallet.virtual_balance
-      return render json: {message: "you have insufficient funds"}, status: :unprocessable_entity
-    end
+  #  if comulative_amount > @portfolio.wallet.virtual_balance
+  #     return render json: {message: "you have insufficient funds"}, status: :unprocessable_entity
+  #   end
 
    portfolio_name = @portfolio.portfolio_name || @portfolio.name
 
