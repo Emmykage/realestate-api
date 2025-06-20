@@ -24,13 +24,15 @@ class Api::V1::TransactionsController < ApplicationController
 
   # GET /transactions/1
   def show
-    render json: {data: @transaction}, status: :ok
+    render json: {data: TransactionSerializer.new(@transaction)}, status: :ok
   end
 
   # POST /transactions
   def create
     @transaction = @current_user.wallet.transactions.new(transaction_params)
 
+
+    binding.b
     if @transaction.save
       TransactionMailer.send_notification(@current_user, @transaction).deliver_now
       render json: {data: @transaction}, message: "transaction created", status: :created
